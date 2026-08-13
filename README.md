@@ -16,10 +16,9 @@ Load the library from an executor with HTTP and either `loadstring` or `load`:
 
 ```lua
 local compiler = loadstring or load
-local source = game:HttpGet(
-    "https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua"
-)
-local RereGui = assert(compiler(source))()
+local source = game:HttpGet("https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua")
+local chunk = assert(compiler(source))
+local RereGui = chunk()
 
 local window = RereGui.new("My window")
 local tab = window:Tab("Main")

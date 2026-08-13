@@ -13,9 +13,10 @@ end
 
 local compiler = loadstring or load
 assert(type(compiler) == "function", "RereGui: executor must expose loadstring or load")
-local RereGui = assert(compiler(fetch(
-	"https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua"
-)))()
+local source = fetch("https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua")
+local chunk = compiler(source)
+assert(type(chunk) == "function", "RereGui: compiler returned no chunk")
+local RereGui = chunk()
 
 local window = RereGui.new("Dear RereGui Demo", {
 	Size = UDim2.fromOffset(650, 430),
