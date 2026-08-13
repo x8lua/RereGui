@@ -1,0 +1,23 @@
+RereGui transaction verification
+Changed branch/field: RereGui / Theme.Accent
+Artifacts:
+C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
+C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
+C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
+C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
+Original/baseline input: Theme.Accent = Color3.fromRGB(41, 74, 122)
+Modified input: Theme.Accent = Color3.fromRGB(42, 114, 181)
+MODIFIED_FILE.lua SHA-256: 0FD5C19F60A1CEB24249BE50DB4CD1FC92FF64DBC6E1FC4A9F91CC74823099FB
+
+BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
+BASELINE literal output: RereGui smoke test passed: all initial public primitives are present.
+BASELINE exit status: 0
+
+MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
+MODIFIED literal output: RereGui smoke test passed: all initial public primitives are present.
+MODIFIED exit status: 0
+
+ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
+ROLLBACK literal output: rollback result: restored behavior/status
+ROLLBACK exit status: 0
+Restored behavior/status: rollback-copy.lua contains Color3.fromRGB(41, 74, 122) after execution; MODIFIED_FILE.lua remains changed at Color3.fromRGB(42, 114, 181).
