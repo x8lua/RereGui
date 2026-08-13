@@ -2,6 +2,6 @@
 set -eu
 target="${1:?usage: ROLLBACK.sh <copy> }"
 cp "$target" "$target.before-rollback"
-sed 's#loadstring or load#loadstring(game:HttpGet(...))#' "$target.before-rollback" > "$target"
-grep -q 'loadstring(game:HttpGet(...))' "$target"
+sed 's#local textObject = object :: any#(object :: any).Text = value#' "$target.before-rollback" > "$target"
+grep -q '(object :: any).Text = value' "$target"
 printf '%s\n' 'rollback result: restored behavior/status'

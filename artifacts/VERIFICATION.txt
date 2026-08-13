@@ -1,16 +1,16 @@
-RereGui executor loader verification
-Changed branch/field: Loader / Compiler
+RereGui source syntax verification
+Changed branch/field: Source / TypedAssignment
 Artifacts:
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: Compiler = loadstring(game:HttpGet(...))
-Modified input: Compiler = loadstring or load, with HTTP request fallback
-MODIFIED_FILE.lua SHA-256: DDBCB173FD28E5BD6DA6D3AD3786EA3724F284592BA62B49B12F81496DE31677
+Original/baseline input: (object :: any).Text = value
+Modified input: local textObject = object :: any; textObject.Text = value
+MODIFIED_FILE.lua SHA-256: D8C810052B9A8D43385D2C5EFAD952982E54A8F5F305B1024136139B2AF72989
 
 BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: :3: attempt to call a nil value (executor without loadstring)
+BASELINE literal output: :16: :37: Ambiguous syntax: this looks like an argument list for a function call, but could also be a start of new statement
 BASELINE exit status: 0
 
 MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
@@ -20,4 +20,4 @@ MODIFIED exit status: 0
 ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
 ROLLBACK literal output: rollback result: restored behavior/status
 ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains loadstring(game:HttpGet(...)) after execution; MODIFIED_FILE.lua remains changed at loadstring or load.
+Restored behavior/status: rollback-copy.lua contains (object :: any).Text = value after execution; MODIFIED_FILE.lua remains changed at local textObject = object :: any.

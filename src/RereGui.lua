@@ -26,17 +26,19 @@ RereGui.Theme = {
 
 local function make(className: string, properties: {[string]: any}): Instance
 	local object = Instance.new(className)
+	local writable = object :: any
 	for property, value in pairs(properties) do
-		(object :: any)[property] = value
+		writable[property] = value
 	end
 	return object
 end
 
 local function text(object: GuiObject, value: string, size: number?)
-	(object :: any).Font = Enum.Font.Code
-	(object :: any).Text = value
-	(object :: any).TextSize = size or 14
-	(object :: any).TextColor3 = RereGui.Theme.Text
+	local textObject = object :: any
+	textObject.Font = Enum.Font.Code
+	textObject.Text = value
+	textObject.TextSize = size or 14
+	textObject.TextColor3 = RereGui.Theme.Text
 end
 
 local function label(parent: Instance, value: string, width: number?): TextLabel

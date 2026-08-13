@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is executor compilation.
+-- Transaction fixture: the changed branch is typed property assignment syntax.
 return {
-	Branch = "Loader",
-	Field = "Compiler",
-	Value = "loadstring or load",
+	Branch = "Source",
+	Field = "TypedAssignment",
+	Value = "local textObject = object :: any",
 }
