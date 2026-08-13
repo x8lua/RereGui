@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is GUI parent resolution.
+-- Transaction fixture: the changed branch is executor compilation.
 return {
-	Branch = "Runtime",
-	Field = "GuiParent",
-	Value = "gethui() -> syn.protect_gui/CoreGui",
+	Branch = "Loader",
+	Field = "Compiler",
+	Value = "loadstring or load",
 }

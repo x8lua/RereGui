@@ -5,6 +5,6 @@ foreach ($marker in $required) {
 }
 $readme = Get-Content "$PSScriptRoot\..\README.md" -Raw
 $demo = Get-Content "$PSScriptRoot\..\demo\Demo.lua" -Raw
-if (-not $readme.Contains('loadstring(game:HttpGet')) { throw 'README is missing executor loader usage.' }
-if (-not $demo.Contains('loadstring(game:HttpGet')) { throw 'Demo is missing executor loader usage.' }
-Write-Output 'RereGui smoke test passed: executor parenting, loader, and public primitives are present.'
+if (-not $demo.Contains('local compiler = loadstring or load')) { throw 'Demo is missing portable executor compiler usage.' }
+if (-not $readme.Contains('local compiler = loadstring or load')) { throw 'README is missing portable executor compiler usage.' }
+Write-Output 'RereGui smoke test passed: executor parenting, portable loader, and public primitives are present.'

@@ -1,6 +1,21 @@
-local RereGui = loadstring(game:HttpGet(
+local function fetch(url)
+	if type(game.HttpGet) == "function" then
+		local ok, body = pcall(function() return game:HttpGet(url) end)
+		if ok and type(body) == "string" then return body end
+	end
+	local environment = (getgenv and getgenv()) or getfenv()
+	local requester = environment.request or environment.http_request or (environment.syn and environment.syn.request)
+	assert(type(requester) == "function", "RereGui: executor has no HTTP request function")
+	local response = requester({Url = url, Method = "GET"})
+	assert(response and response.Body, "RereGui: HTTP request returned no body")
+	return response.Body
+end
+
+local compiler = loadstring or load
+assert(type(compiler) == "function", "RereGui: executor must expose loadstring or load")
+local RereGui = assert(compiler(fetch(
 	"https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua"
-))()
+)))()
 
 local window = RereGui.new("Dear RereGui Demo", {
 	Size = UDim2.fromOffset(650, 430),

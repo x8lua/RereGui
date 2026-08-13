@@ -12,12 +12,14 @@
 
 ## Executor usage
 
-Load the library from an executor with HTTP and `loadstring`:
+Load the library from an executor with HTTP and either `loadstring` or `load`:
 
 ```lua
-local RereGui = loadstring(game:HttpGet(
+local compiler = loadstring or load
+local source = game:HttpGet(
     "https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua"
-))()
+)
+local RereGui = assert(compiler(source))()
 
 local window = RereGui.new("My window")
 local tab = window:Tab("Main")

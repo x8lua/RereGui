@@ -1,23 +1,23 @@
-RereGui executor conversion verification
-Changed branch/field: Runtime / GuiParent
+RereGui executor loader verification
+Changed branch/field: Loader / Compiler
 Artifacts:
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: GuiParent = Players.LocalPlayer.PlayerGui
-Modified input: GuiParent = gethui() -> syn.protect_gui/CoreGui
-MODIFIED_FILE.lua SHA-256: C9C373A6DA261C113FCBDAE7CB938931A4F151027E31FB75E50708FB3C5BAFD1
+Original/baseline input: Compiler = loadstring(game:HttpGet(...))
+Modified input: Compiler = loadstring or load, with HTTP request fallback
+MODIFIED_FILE.lua SHA-256: DDBCB173FD28E5BD6DA6D3AD3786EA3724F284592BA62B49B12F81496DE31677
 
 BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: RereGui smoke test passed: all initial public primitives are present.
+BASELINE literal output: :3: attempt to call a nil value (executor without loadstring)
 BASELINE exit status: 0
 
 MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-MODIFIED literal output: RereGui smoke test passed: executor parenting, loader, and public primitives are present.
+MODIFIED literal output: RereGui smoke test passed: executor parenting, portable loader, and public primitives are present.
 MODIFIED exit status: 0
 
 ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
 ROLLBACK literal output: rollback result: restored behavior/status
 ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains Players.LocalPlayer.PlayerGui after execution; MODIFIED_FILE.lua remains changed at gethui() -> syn.protect_gui/CoreGui.
+Restored behavior/status: rollback-copy.lua contains loadstring(game:HttpGet(...)) after execution; MODIFIED_FILE.lua remains changed at loadstring or load.
