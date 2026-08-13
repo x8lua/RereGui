@@ -1,5 +1,5 @@
 --- MODIFIED_FILE.lua (baseline)
 +++ MODIFIED_FILE.lua (modified)
 @@
--	Value = "(object :: any).Text = value",
-+	Value = "local textObject = object :: any",
+-	Value = "Enum.Font.Code + v/>",
++	Value = "RobotoMono Regular + ▼/▶",

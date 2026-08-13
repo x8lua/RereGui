@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is typed property assignment syntax.
+-- Transaction fixture: the changed branch is typography and arrows.
 return {
-	Branch = "Source",
-	Field = "TypedAssignment",
-	Value = "local textObject = object :: any",
+	Branch = "Visuals",
+	Field = "TypographyAndArrows",
+	Value = "RobotoMono Regular + ▼/▶",
 }

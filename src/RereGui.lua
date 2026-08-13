@@ -5,6 +5,11 @@ local RereGui = {}
 RereGui.Version = "0.1.0"
 
 local UserInputService = game:GetService("UserInputService")
+local RegularMono = Font.new(
+	"rbxasset://fonts/families/RobotoMono.json",
+	Enum.FontWeight.Regular,
+	Enum.FontStyle.Normal
+)
 
 export type Theme = {
 	WindowBg: Color3, Border: Color3, TitleBg: Color3, TitleBgInactive: Color3,
@@ -35,9 +40,9 @@ end
 
 local function text(object: GuiObject, value: string, size: number?)
 	local textObject = object :: any
-	textObject.Font = Enum.Font.Code
+	textObject.FontFace = RegularMono
 	textObject.Text = value
-	textObject.TextSize = size or 14
+	textObject.TextSize = size or 13
 	textObject.TextColor3 = RereGui.Theme.Text
 end
 
@@ -114,7 +119,7 @@ function RereGui.new(title: string, options: {Size: UDim2?, Position: UDim2?, Pa
 	local titleBar = make("TextButton", {Name = "TitleBar", Size = UDim2.new(1, 0, 0, 27), BackgroundColor3 = RereGui.Theme.TitleBg, BorderSizePixel = 0, AutoButtonColor = false, Text = "", Parent = frame}) :: TextButton
 	drag(frame, titleBar)
 	local collapse = make("TextButton", {Size = UDim2.fromOffset(24, 24), Position = UDim2.fromOffset(2, 1), BackgroundTransparency = 1, AutoButtonColor = false, Parent = titleBar}) :: TextButton
-	text(collapse, "v", 18)
+	text(collapse, "▼", 14)
 	local titleLabel = label(titleBar, title)
 	titleLabel.Size, titleLabel.Position = UDim2.new(1, -58, 1, 0), UDim2.fromOffset(28, 0)
 	local close = make("TextButton", {Size = UDim2.fromOffset(25, 25), Position = UDim2.new(1, -27, 0, 1), BackgroundTransparency = 1, AutoButtonColor = false, Parent = titleBar}) :: TextButton
@@ -126,7 +131,7 @@ function RereGui.new(title: string, options: {Size: UDim2?, Position: UDim2?, Pa
 	close.MouseButton1Click:Connect(function() self:Destroy() end)
 	collapse.MouseButton1Click:Connect(function()
 		self.Collapsed = not self.Collapsed; tabs.Visible = not self.Collapsed; content.Visible = not self.Collapsed
-		collapse.Text = self.Collapsed and ">" or "v"
+		collapse.Text = self.Collapsed and "▶" or "▼"
 	end)
 	UserInputService.InputBegan:Connect(function(input, processed)
 		if not processed and input.KeyCode == self.ToggleKey then self:SetVisible(not self.Visible) end
@@ -218,10 +223,15 @@ function Tab:CollapsingHeader(value: string, open: boolean?)
 	addList(holder, 4)
 	local expanded = open ~= false
 	local header = make("TextButton", {Size = UDim2.new(1, 0, 0, 24), BackgroundColor3 = RereGui.Theme.Header, BorderColor3 = RereGui.Theme.Border, AutoButtonColor = false, Parent = holder}) :: TextButton
-	text(header, (expanded and "v  " or ">  ") .. value); header.TextXAlignment = Enum.TextXAlignment.Left
+	header.Text = ""
+	local arrow = make("TextLabel", {Size = UDim2.fromOffset(18, 24), Position = UDim2.fromOffset(2, 0), BackgroundTransparency = 1, TextXAlignment = Enum.TextXAlignment.Center, TextYAlignment = Enum.TextYAlignment.Center, Parent = header}) :: TextLabel
+	text(arrow, expanded and "▼" or "▶", 13)
+	local headerLabel = label(header, value)
+	headerLabel.Size = UDim2.new(1, -24, 1, 0)
+	headerLabel.Position = UDim2.fromOffset(23, 0)
 	local body = make("Frame", {Size = UDim2.new(1, -12, 0, 0), Position = UDim2.fromOffset(6, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Visible = expanded, Parent = holder}) :: Frame
 	addList(body, 4)
-	header.MouseButton1Click:Connect(function() expanded = not expanded; body.Visible = expanded; header.Text = (expanded and "v  " or ">  ") .. value end)
+	header.MouseButton1Click:Connect(function() expanded = not expanded; body.Visible = expanded; arrow.Text = expanded and "▼" or "▶" end)
 	return setmetatable({Page = body}, Tab)
 end
 
