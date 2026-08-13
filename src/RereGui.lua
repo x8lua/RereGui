@@ -15,7 +15,7 @@ export type Theme = {
 	WindowBg: Color3, Border: Color3, TitleBg: Color3, TitleBgInactive: Color3,
 	TabBg: Color3, TabActive: Color3, TabHover: Color3, FrameBg: Color3,
 	FrameHover: Color3, Accent: Color3, AccentHover: Color3, Text: Color3,
-	TextMuted: Color3, Header: Color3, HeaderHover: Color3,
+	TextMuted: Color3, Header: Color3, HeaderHover: Color3, TextSize: number,
 }
 
 RereGui.Theme = {
@@ -26,7 +26,7 @@ RereGui.Theme = {
 	FrameHover = Color3.fromRGB(29, 49, 71), Accent = Color3.fromRGB(42, 114, 181),
 	AccentHover = Color3.fromRGB(63, 137, 204), Text = Color3.fromRGB(232, 238, 245),
 	TextMuted = Color3.fromRGB(164, 180, 195), Header = Color3.fromRGB(35, 76, 117),
-	HeaderHover = Color3.fromRGB(48, 96, 143),
+	HeaderHover = Color3.fromRGB(48, 96, 143), TextSize = 15,
 } :: Theme
 
 local function make(className: string, properties: {[string]: any}): Instance
@@ -42,7 +42,7 @@ local function text(object: GuiObject, value: string, size: number?)
 	local textObject = object :: any
 	textObject.FontFace = RegularMono
 	textObject.Text = value
-	textObject.TextSize = size or 13
+	textObject.TextSize = size or RereGui.Theme.TextSize
 	textObject.TextColor3 = RereGui.Theme.Text
 end
 
@@ -119,7 +119,7 @@ function RereGui.new(title: string, options: {Size: UDim2?, Position: UDim2?, Pa
 	local titleBar = make("TextButton", {Name = "TitleBar", Size = UDim2.new(1, 0, 0, 27), BackgroundColor3 = RereGui.Theme.TitleBg, BorderSizePixel = 0, AutoButtonColor = false, Text = "", Parent = frame}) :: TextButton
 	drag(frame, titleBar)
 	local collapse = make("TextButton", {Size = UDim2.fromOffset(24, 24), Position = UDim2.fromOffset(2, 1), BackgroundTransparency = 1, AutoButtonColor = false, Parent = titleBar}) :: TextButton
-	text(collapse, "▼", 14)
+	text(collapse, "▼", 16)
 	local titleLabel = label(titleBar, title)
 	titleLabel.Size, titleLabel.Position = UDim2.new(1, -58, 1, 0), UDim2.fromOffset(28, 0)
 	local close = make("TextButton", {Size = UDim2.fromOffset(25, 25), Position = UDim2.new(1, -27, 0, 1), BackgroundTransparency = 1, AutoButtonColor = false, Parent = titleBar}) :: TextButton
@@ -225,7 +225,7 @@ function Tab:CollapsingHeader(value: string, open: boolean?)
 	local header = make("TextButton", {Size = UDim2.new(1, 0, 0, 24), BackgroundColor3 = RereGui.Theme.Header, BorderColor3 = RereGui.Theme.Border, AutoButtonColor = false, Parent = holder}) :: TextButton
 	header.Text = ""
 	local arrow = make("TextLabel", {Size = UDim2.fromOffset(18, 24), Position = UDim2.fromOffset(2, 0), BackgroundTransparency = 1, TextXAlignment = Enum.TextXAlignment.Center, TextYAlignment = Enum.TextYAlignment.Center, Parent = header}) :: TextLabel
-	text(arrow, expanded and "▼" or "▶", 13)
+	text(arrow, expanded and "▼" or "▶", 15)
 	local headerLabel = label(header, value)
 	headerLabel.Size = UDim2.new(1, -24, 1, 0)
 	headerLabel.Position = UDim2.fromOffset(23, 0)

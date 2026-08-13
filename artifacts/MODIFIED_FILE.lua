@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is typography and arrows.
+-- Transaction fixture: the changed branch is global font sizing.
 return {
 	Branch = "Visuals",
-	Field = "TypographyAndArrows",
-	Value = "RobotoMono Regular + ▼/▶",
+	Field = "Theme.TextSize",
+	Value = "15",
 }

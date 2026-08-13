@@ -2,6 +2,6 @@
 set -eu
 target="${1:?usage: ROLLBACK.sh <copy> }"
 cp "$target" "$target.before-rollback"
-sed 's#RobotoMono Regular + ▼/▶#Enum.Font.Code + v/>#' "$target.before-rollback" > "$target"
-grep -q 'Enum.Font.Code + v/>' "$target"
+sed 's#Value = "15"#Value = "13"#' "$target.before-rollback" > "$target"
+grep -q 'Value = "13"' "$target"
 printf '%s\n' 'rollback result: restored behavior/status'

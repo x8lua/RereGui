@@ -1,16 +1,16 @@
 RereGui visual verification
-Changed branch/field: Visuals / TypographyAndArrows
+Changed branch/field: Visuals / Theme.TextSize
 Artifacts:
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: Enum.Font.Code + v/>
-Modified input: RobotoMono Regular + ▼/▶
-MODIFIED_FILE.lua SHA-256: 4CFFCE10D0EF1B8D2B31F1F21155B346698AE1D66E6472962A76A9111DF72872
+Original/baseline input: Theme.TextSize = 13
+Modified input: Theme.TextSize = 15
+MODIFIED_FILE.lua SHA-256: BF9DC8F9053C12FFA0AAD56398FF20098B57A7A7D51A67ECABB083E4ACF413A6
 
 BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: UI rendered with heavier Enum.Font.Code text and ASCII v/> arrows.
+BASELINE literal output: UI rendered with 13px base text.
 BASELINE exit status: 0
 
 MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
@@ -20,4 +20,4 @@ MODIFIED exit status: 0
 ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
 ROLLBACK literal output: rollback result: restored behavior/status
 ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains Enum.Font.Code + v/> after execution; MODIFIED_FILE.lua remains changed at RobotoMono Regular + ▼/▶.
+Restored behavior/status: rollback-copy.lua contains Value = "13" after execution; MODIFIED_FILE.lua remains changed at Value = "15".
