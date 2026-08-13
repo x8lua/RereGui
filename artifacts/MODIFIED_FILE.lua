@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is global font sizing.
+-- Transaction fixture: the changed branch is the font family.
 return {
 	Branch = "Visuals",
-	Field = "Theme.TextSize",
-	Value = "15",
+	Field = "Font",
+	Value = "Enum.Font.Code",
 }

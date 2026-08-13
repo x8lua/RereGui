@@ -5,11 +5,6 @@ local RereGui = {}
 RereGui.Version = "0.1.0"
 
 local UserInputService = game:GetService("UserInputService")
-local RegularMono = Font.new(
-	"rbxasset://fonts/families/RobotoMono.json",
-	Enum.FontWeight.Regular,
-	Enum.FontStyle.Normal
-)
 
 export type Theme = {
 	WindowBg: Color3, Border: Color3, TitleBg: Color3, TitleBgInactive: Color3,
@@ -40,7 +35,7 @@ end
 
 local function text(object: GuiObject, value: string, size: number?)
 	local textObject = object :: any
-	textObject.FontFace = RegularMono
+	textObject.Font = Enum.Font.Code
 	textObject.Text = value
 	textObject.TextSize = size or RereGui.Theme.TextSize
 	textObject.TextColor3 = RereGui.Theme.Text

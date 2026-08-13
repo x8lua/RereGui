@@ -1,5 +1,5 @@
 --- MODIFIED_FILE.lua (baseline)
 +++ MODIFIED_FILE.lua (modified)
 @@
--	Value = "13",
-+	Value = "15",
+-	Value = "RobotoMono Regular",
++	Value = "Enum.Font.Code",
