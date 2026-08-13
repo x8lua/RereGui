@@ -1,6 +1,6 @@
 # RereGui
 
-`RereGui` is a compact, Dear ImGui-inspired Roblox UI library. It recreates the dense desktop presentation from the supplied ReGui reference without depending on the deleted project.
+`RereGui` is a compact, Dear ImGui-inspired Roblox executor UI library. It recreates the dense desktop presentation from the supplied ReGui reference without depending on the deleted project.
 
 ## Initial feature set
 
@@ -10,12 +10,15 @@
 - Checkboxes, numeric sliders, and text inputs
 - One centrally editable dark/blue theme
 
-## Install
+## Executor usage
 
-Copy `src/RereGui.lua` into Roblox Studio as a `ModuleScript`, then require it from a `LocalScript`. `demo/Demo.client.lua` is a runnable reference implementation.
+Load the library from an executor with HTTP and `loadstring`:
 
 ```lua
-local RereGui = require(path.to.RereGui)
+local RereGui = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua"
+))()
+
 local window = RereGui.new("My window")
 local tab = window:Tab("Main")
 tab:Checkbox("Enabled", true, function(enabled)
@@ -23,12 +26,14 @@ tab:Checkbox("Enabled", true, function(enabled)
 end)
 ```
 
-The default visibility key is `RightShift`; set `ToggleKey` in `RereGui.new` to change it.
+The library parents to `gethui()` when available. On executors without `gethui`, it uses `syn.protect_gui` when exposed and parents to `CoreGui`. An explicit `Parent` option remains available.
+
+The default visibility key is `RightShift`; set `ToggleKey` in `RereGui.new` to change it. See `demo/Demo.lua` for the full executor example.
 
 ## Repository layout
 
 ```
-src/RereGui.lua      library ModuleScript
-demo/Demo.client.lua sample LocalScript
+src/RereGui.lua      executor-loadable library
+demo/Demo.lua        complete executor example
 tests/smoke.ps1      repository smoke checks
 ```

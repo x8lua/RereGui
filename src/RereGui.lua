@@ -4,7 +4,6 @@
 local RereGui = {}
 RereGui.Version = "0.1.0"
 
-local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 
 export type Theme = {
@@ -53,6 +52,29 @@ local function addList(parent: Instance, padding: number): UIListLayout
 	return make("UIListLayout", {FillDirection = Enum.FillDirection.Vertical, SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, padding), Parent = parent}) :: UIListLayout
 end
 
+local function parentGui(gui: ScreenGui, explicitParent: Instance?)
+	if explicitParent then
+		gui.Parent = explicitParent
+		return
+	end
+
+	local environment = getfenv()
+	local getHiddenUi = environment.gethui
+	if type(getHiddenUi) == "function" then
+		local ok, hiddenUi = pcall(getHiddenUi)
+		if ok and typeof(hiddenUi) == "Instance" then
+			gui.Parent = hiddenUi
+			return
+		end
+	end
+
+	local synapse = environment.syn
+	if type(synapse) == "table" and type(synapse.protect_gui) == "function" then
+		pcall(synapse.protect_gui, gui)
+	end
+	gui.Parent = game:GetService("CoreGui")
+end
+
 local function drag(frame: GuiObject, handle: GuiObject)
 	local active = false
 	local startPointer = Vector2.zero
@@ -80,8 +102,8 @@ Tab.__index = Tab
 
 function RereGui.new(title: string, options: {Size: UDim2?, Position: UDim2?, Parent: Instance?, ToggleKey: Enum.KeyCode?}?)
 	options = options or {}
-	local playerGui = options.Parent or Players.LocalPlayer:WaitForChild("PlayerGui")
-	local gui = make("ScreenGui", {Name = "RereGui", ResetOnSpawn = false, ZIndexBehavior = Enum.ZIndexBehavior.Sibling, Parent = playerGui}) :: ScreenGui
+	local gui = make("ScreenGui", {Name = "RereGui", ResetOnSpawn = false, ZIndexBehavior = Enum.ZIndexBehavior.Sibling}) :: ScreenGui
+	parentGui(gui, options.Parent)
 	local frame = make("Frame", {
 		Name = "Window", Size = options.Size or UDim2.fromOffset(640, 420), Position = options.Position or UDim2.new(0.5, -320, 0.5, -210),
 		BackgroundColor3 = RereGui.Theme.WindowBg, BorderColor3 = RereGui.Theme.Border, BorderSizePixel = 1, Active = true, Parent = gui,

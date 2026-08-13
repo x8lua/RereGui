@@ -1,5 +1,6 @@
--- Place RereGui.lua beside this LocalScript as a ModuleScript, then play-test.
-local RereGui = require(script.Parent.RereGui)
+local RereGui = loadstring(game:HttpGet(
+	"https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua"
+))()
 
 local window = RereGui.new("Dear RereGui Demo", {
 	Size = UDim2.fromOffset(650, 430),

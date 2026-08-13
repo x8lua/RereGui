@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is the theme field.
+-- Transaction fixture: the changed branch is GUI parent resolution.
 return {
-	Branch = "RereGui",
-	Field = "Theme.Accent",
-	Value = "Color3.fromRGB(42, 114, 181)",
+	Branch = "Runtime",
+	Field = "GuiParent",
+	Value = "gethui() -> syn.protect_gui/CoreGui",
 }

@@ -1,5 +1,5 @@
 --- MODIFIED_FILE.lua (baseline)
 +++ MODIFIED_FILE.lua (modified)
 @@
--	Value = "Color3.fromRGB(41, 74, 122)",
-+	Value = "Color3.fromRGB(42, 114, 181)",
+-	Value = "Players.LocalPlayer.PlayerGui",
++	Value = "gethui() -> syn.protect_gui/CoreGui",
