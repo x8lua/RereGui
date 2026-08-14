@@ -1,7 +1,7 @@
 --// Import ReGui
 local compiler = loadstring or load
 assert(type(compiler) == "function", "ReGui: executor must expose loadstring or load")
-local source = game:HttpGet("https://raw.githubusercontent.com/x8lua/RereGui/f1b088b/src/RereGui.lua")
+local source = game:HttpGet("https://raw.githubusercontent.com/x8lua/RereGui/f877851/src/RereGui.lua")
 local chunk = assert(compiler(source))
 local ReGui = chunk()
 
