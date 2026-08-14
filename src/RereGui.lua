@@ -1209,23 +1209,34 @@ function ReGui:LoadPrefabs(): Folder?
 		object.Parent = parent
 		return object
 	end
+	local function style(object, properties)
+		for property, value in next, properties do
+			pcall(function() object[property] = value end)
+		end
+	end
 	local function template(name, className)
 		local object = child(className, Root, name)
 		return object
 	end
 	local container = template("Container", "ScreenGui")
 	container.ResetOnSpawn = false
+	container.IgnoreGuiInset = true
 	child("Folder", container, "Windows")
 	local window = template("Window", "CanvasGroup")
+	style(window, {Size = UDim2.fromOffset(400, 300), BackgroundTransparency = 1})
 	local content = child("TextButton", window, "Content")
+	style(content, {Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.fromRGB(38, 41, 48), BorderSizePixel = 0, AutoButtonColor = false, Text = ""})
 	child("UIStroke", content, "Border")
 	child("Frame", content, "TitleBar")
+	style(content.TitleBar, {Size = UDim2.new(1, 0, 0, 26), BackgroundColor3 = Color3.fromRGB(28, 30, 36), BorderSizePixel = 0})
 	local canvas = template("Canvas", "Frame")
 	child("UIListLayout", canvas, "UIListLayout")
 	local scrolling = template("ScrollingCanvas", "ScrollingFrame")
 	child("UIListLayout", scrolling, "UIListLayout")
 	local button = template("Button", "TextButton")
+	style(button, {BackgroundColor3 = Color3.fromRGB(58, 63, 74), BorderSizePixel = 0, AutoButtonColor = true, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 14, Font = Enum.Font.Gotham})
 	local label = template("Label", "TextLabel")
+	style(label, {BackgroundTransparency = 1, TextColor3 = Color3.fromRGB(230, 230, 235), TextSize = 14, Font = Enum.Font.Gotham})
 	local arrowButton = template("ArrowButton", "TextButton")
 	child("ImageLabel", arrowButton, "Icon")
 	local radioButton = template("RadioButton", "TextButton")
@@ -1263,14 +1274,20 @@ function ReGui:LoadPrefabs(): Folder?
 	local toggle = child("TextButton", title, "Toggle")
 	child("ImageButton", toggle, "Icon")
 	local tabSelector = template("TabSelector", "Frame")
+	style(tabSelector, {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1})
 	local tabsBar = child("Frame", tabSelector, "TabsBar")
+	style(tabsBar, {Size = UDim2.new(1, 0, 0, 26), BackgroundColor3 = Color3.fromRGB(28, 30, 36), BorderSizePixel = 0})
 	child("UIStroke", tabsBar, "Line")
 	local tabTemplate = child("Frame", tabsBar, "TemplateButton")
+	style(tabTemplate, {Size = UDim2.fromOffset(92, 26), BackgroundTransparency = 1})
 	local tabButton = child("TextButton", tabTemplate, "Button")
+	style(tabButton, {Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.fromRGB(48, 52, 61), BorderSizePixel = 0, AutoButtonColor = false, Text = ""})
 	child("TextLabel", tabButton, "Label")
+	style(tabButton.Label, {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, TextColor3 = Color3.fromRGB(235, 235, 235), TextSize = 14, Font = Enum.Font.Gotham})
 	child("UIPadding", tabButton, "UIPadding")
 	local tabBody = child("Frame", tabSelector, "Body")
 	local pageTemplate = child("Frame", tabBody, "PageTemplate")
+	style(pageTemplate, {Size = UDim2.new(1, 0, 1, -26), Position = UDim2.fromOffset(0, 26), BackgroundTransparency = 1})
 	child("UIPadding", pageTemplate, "UIPadding")
 	template("Histogram", "Frame")
 	template("Viewport", "ViewportFrame")
