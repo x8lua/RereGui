@@ -1,16 +1,16 @@
-RereGui reference palette verification
-Changed branch/field: Visuals / ThemePalette
+RereGui tab styling verification
+Changed branch/field: Tabs / PaletteAndWeight
 Artifacts:
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: bright blue title and headers
-Modified input: sampled #0E1218 canvas, #0F1319 title, #1E2634 tabs, #3F6F9B active tab, #1E3D5D headers
-MODIFIED_FILE.lua SHA-256: E59FC9B04AF9A9E58B9DA0DBC5DAE860416CA272ADF934D8C0AC6E37C5204C5E
+Original/baseline input: 2px tab spacing + regular code text
+Modified input: sampled #1D2532 inactive tab, #2F72B6 active tab, 1px spacing, 0.65 text stroke
+MODIFIED_FILE.lua SHA-256: 88C75A01B3C2AF5E255140751E0273BF5AFE5EF589DF3EA2E55A629F807B9E7E
 
 BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: UI rendered with the previous bright blue theme.
+BASELINE literal output: tabs used wider gaps and regular text weight.
 BASELINE exit status: 0
 
 MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
@@ -20,4 +20,4 @@ MODIFIED exit status: 0
 ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
 ROLLBACK literal output: rollback result: restored behavior/status
 ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains the previous theme description after execution; MODIFIED_FILE.lua remains changed with the sampled palette.
+Restored behavior/status: rollback-copy.lua contains the baseline tab description after execution; MODIFIED_FILE.lua remains changed with compact sampled tabs.

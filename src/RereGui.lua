@@ -10,18 +10,18 @@ export type Theme = {
 	WindowBg: Color3, Border: Color3, TitleBg: Color3, TitleBgInactive: Color3,
 	TabBg: Color3, TabActive: Color3, TabHover: Color3, FrameBg: Color3,
 	FrameHover: Color3, Accent: Color3, AccentHover: Color3, Text: Color3,
-	TextMuted: Color3, Header: Color3, HeaderHover: Color3, TextSize: number,
+	TextMuted: Color3, Header: Color3, HeaderHover: Color3, TextSize: number, TextStrokeTransparency: number,
 }
 
 RereGui.Theme = {
 	WindowBg = Color3.fromRGB(14, 18, 24), Border = Color3.fromRGB(61, 52, 62),
 	TitleBg = Color3.fromRGB(15, 19, 25), TitleBgInactive = Color3.fromRGB(15, 19, 25),
-	TabBg = Color3.fromRGB(30, 38, 52), TabActive = Color3.fromRGB(63, 111, 155),
-	TabHover = Color3.fromRGB(44, 68, 94), FrameBg = Color3.fromRGB(15, 19, 25),
+	TabBg = Color3.fromRGB(29, 37, 50), TabActive = Color3.fromRGB(47, 114, 182),
+	TabHover = Color3.fromRGB(44, 85, 123), FrameBg = Color3.fromRGB(15, 19, 25),
 	FrameHover = Color3.fromRGB(30, 38, 52), Accent = Color3.fromRGB(63, 111, 155),
 	AccentHover = Color3.fromRGB(80, 129, 174), Text = Color3.fromRGB(223, 230, 238),
 	TextMuted = Color3.fromRGB(138, 153, 172), Header = Color3.fromRGB(30, 61, 93),
-	HeaderHover = Color3.fromRGB(44, 85, 123), TextSize = 15,
+	HeaderHover = Color3.fromRGB(44, 85, 123), TextSize = 15, TextStrokeTransparency = 0.65,
 } :: Theme
 
 local function make(className: string, properties: {[string]: any}): Instance
@@ -39,6 +39,8 @@ local function text(object: GuiObject, value: string, size: number?)
 	textObject.Text = value
 	textObject.TextSize = size or RereGui.Theme.TextSize
 	textObject.TextColor3 = RereGui.Theme.Text
+	textObject.TextStrokeColor3 = RereGui.Theme.Text
+	textObject.TextStrokeTransparency = RereGui.Theme.TextStrokeTransparency
 end
 
 local function label(parent: Instance, value: string, width: number?): TextLabel
@@ -119,8 +121,8 @@ function RereGui.new(title: string, options: {Size: UDim2?, Position: UDim2?, Pa
 	titleLabel.Size, titleLabel.Position = UDim2.new(1, -58, 1, 0), UDim2.fromOffset(28, 0)
 	local close = make("TextButton", {Size = UDim2.fromOffset(25, 25), Position = UDim2.new(1, -27, 0, 1), BackgroundTransparency = 1, AutoButtonColor = false, Parent = titleBar}) :: TextButton
 	text(close, "x", 19)
-	local tabs = make("Frame", {Name = "Tabs", Size = UDim2.new(1, -10, 0, 25), Position = UDim2.fromOffset(5, 30), BackgroundColor3 = RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, Parent = frame}) :: Frame
-	make("UIListLayout", {FillDirection = Enum.FillDirection.Horizontal, SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 2), Parent = tabs})
+	local tabs = make("Frame", {Name = "Tabs", Size = UDim2.new(1, -10, 0, 25), Position = UDim2.fromOffset(5, 30), BackgroundColor3 = RereGui.Theme.TabBg, BorderColor3 = RereGui.Theme.Border, Parent = frame}) :: Frame
+	make("UIListLayout", {FillDirection = Enum.FillDirection.Horizontal, SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 1), Parent = tabs})
 	local content = make("Frame", {Name = "Content", Size = UDim2.new(1, -10, 1, -65), Position = UDim2.fromOffset(5, 60), BackgroundTransparency = 1, ClipsDescendants = true, Parent = frame}) :: Frame
 	local self = setmetatable({Gui = gui, Frame = frame, Tabs = {}, TabBar = tabs, Content = content, Visible = true, ToggleKey = options.ToggleKey or Enum.KeyCode.RightShift}, Window)
 	close.MouseButton1Click:Connect(function() self:Destroy() end)

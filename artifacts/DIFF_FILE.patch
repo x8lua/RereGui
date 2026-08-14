@@ -1,5 +1,5 @@
 --- MODIFIED_FILE.lua (baseline)
 +++ MODIFIED_FILE.lua (modified)
 @@
--	Value = "Bright blue title and headers",
-+	Value = "#0E1218 #0F1319 #1E2634 #3F6F9B #1E3D5D",
+-	Value = "2px tab spacing + regular code text",
++	Value = "#1D2532 #2F72B6 + 0.65 text stroke",
