@@ -1259,7 +1259,7 @@ function ReGui:LoadPrefabs(): Folder?
 	local header = template("CollapsingHeader", "Frame")
 	local title = child("TextButton", header, "TitleBar")
 	local toggle = child("TextButton", title, "Toggle")
-	child("ImageLabel", toggle, "Icon")
+	child("ImageButton", toggle, "Icon")
 	local tabSelector = template("TabSelector", "Frame")
 	local tabsBar = child("Frame", tabSelector, "TabsBar")
 	child("UIStroke", tabsBar, "Line")
