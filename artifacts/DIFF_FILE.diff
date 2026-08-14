@@ -1,50 +1,76 @@
 ﻿diff --git a/src/RereGui.lua b/src/RereGui.lua
-index 908bd7b..d04f936 100644
+index d04f936..721dad5 100644
 --- a/src/RereGui.lua
 +++ b/src/RereGui.lua
-@@ -1163,16 +1163,28 @@ function ReGui:LoadPrefabs(): Folder?
+@@ -1198,7 +1198,70 @@ function ReGui:LoadPrefabs(): Folder?
+ 	end)
+ 	if getObjectsAsset then return getObjectsAsset end
  
- 	--// Check script for prefabs
- 	local ScriptUi = script and script:FindFirstChild(Name)
--	if ScriptUi then return ScriptUi end
- 
- 	--// Check PlayerGui for prefabs (Studio Debug)
--	local PlayerUI = PlayerGui:WaitForChild(Name, 2)
--	if PlayerUI then return PlayerUI end
--
- 	local assetUrl = "rbxassetid://" .. tostring(self.PrefabsId)
-+	local function normalizePrefabRoot(loaded)
-+		if not loaded then return nil end
-+		-- Executors can return either ReGui-Prefabs (containing Prefabs) or
-+		-- the Prefabs folder directly. Normalize both to the folder used below.
-+		if loaded.Name == "Prefabs" then return loaded end
-+		return loaded:FindFirstChild("Prefabs", true)
+-	return nil
++	--// Executor fallback: build the small prefab tree in memory when asset
++	--// loading is unavailable. This keeps the library usable in executors
++	--// that block InsertService and GetObjects.
++	local Root = Instance.new("Folder")
++	Root.Name = "Prefabs"
++	local function child(className, parent, name)
++		local object = Instance.new(className)
++		object.Name = name
++		object.Parent = parent
++		return object
 +	end
-+	if ScriptUi then
-+		local embedded = normalizePrefabRoot(ScriptUi)
-+		if embedded then return embedded end
++	local function template(name, className)
++		local object = child(className, Root, name)
++		return object
 +	end
-+	local PlayerUI = PlayerGui:WaitForChild(Name, 2)
-+	if PlayerUI then
-+		local localUi = normalizePrefabRoot(PlayerUI)
-+		if localUi then return localUi end
-+	end
- 	local function loadPrefab(loader)
- 		local ok, loaded = pcall(loader)
--		if ok and loaded and loaded:FindFirstChild("Prefabs") then return loaded end
-+		if ok then return normalizePrefabRoot(loaded) end
- 		return nil
- 	end
++	local container = template("Container", "ScreenGui")
++	container.ResetOnSpawn = false
++	local window = template("Window", "CanvasGroup")
++	local content = child("Frame", window, "Content")
++	child("Frame", content, "TitleBar")
++	local canvas = template("Canvas", "Frame")
++	child("UIListLayout", canvas, "UIListLayout")
++	local scrolling = template("ScrollingCanvas", "ScrollingFrame")
++	child("UIListLayout", scrolling, "UIListLayout")
++	local button = template("Button", "TextButton")
++	local label = template("Label", "TextLabel")
++	template("ArrowButton", "TextButton")
++	template("RadioButton", "TextButton")
++	local checkbox = template("CheckBox", "Frame")
++	child("TextButton", checkbox, "Tickbox")
++	template("ResizeGrab", "TextButton")
++	template("Overlay", "Frame")
++	local overlayScroll = template("OverlayScroll", "ScrollingFrame")
++	child("Frame", overlayScroll, "ContentFrame")
++	template("Image", "ImageButton")
++	template("VideoPlayer", "VideoFrame")
++	local input = template("InputBox", "Frame")
++	local inputFrame = child("Frame", input, "Frame")
++	child("TextBox", inputFrame, "Input")
++	local slider = template("Slider", "Frame")
++	local track = child("Frame", slider, "Track")
++	child("TextButton", track, "Grab")
++	child("TextLabel", track, "ValueText")
++	local combo = template("Combo", "Frame")
++	child("TextButton", combo, "Combo")
++	local list = template("List", "Frame")
++	child("UIListLayout", list, "UIListLayout")
++	template("Row", "Frame")
++	template("Group", "Frame")
++	template("Bullet", "Frame")
++	template("SeparatorText", "Frame")
++	local header = template("CollapsingHeader", "Frame")
++	local title = child("Frame", header, "TitleBar")
++	local toggle = child("TextButton", title, "Toggle")
++	child("ImageLabel", toggle, "Icon")
++	template("TabSelector", "Frame")
++	template("Histogram", "Frame")
++	template("Viewport", "ViewportFrame")
++	template("Console", "Frame")
++	child("TextBox", Root:FindFirstChild("Console"), "Source")
++	local tableTemplate = template("Table", "Frame")
++	child("Frame", tableTemplate, "RowTemp")
++	template("ModalEffect", "Frame")
++	return Root
+ end
  
-@@ -2131,7 +2143,10 @@ end
- 
- function ReGui:InsertPrefab(Name: string, Properties): Instance
- 	local Folder = self.Prefabs
--	local Prefabs = Folder.Prefabs
-+	local Prefabs = Folder and (Folder.Name == "Prefabs" and Folder or Folder:FindFirstChild("Prefabs", true))
-+	if not Prefabs then
-+		error(string.format("[RereGui] Prefab folder is unavailable while creating '%s'. Re-run ReGui:Init() after the executor loads asset %s.", Name, tostring(self.PrefabsId)))
-+	end
- 
- 	local Element = Prefabs:WaitForChild(Name)
- 	local New = Element:Clone()
+ function ReGui:ResolveContainerParent(): GuiObject?
