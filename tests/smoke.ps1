@@ -1,5 +1,5 @@
 $module = Get-Content "$PSScriptRoot\..\src\RereGui.lua" -Raw
-$required = @('TextSize = 15', 'textObject.TextSize = size or RereGui.Theme.TextSize', 'textObject.Font = Enum.Font.Code', 'expanded and "▼" or "▶"', 'local function parentGui', 'environment.gethui', 'synapse.protect_gui', 'game:GetService("CoreGui")', 'function RereGui.new', 'function Window:Tab', 'function Tab:Checkbox', 'function Tab:Slider', 'function Tab:InputText', 'function Tab:CollapsingHeader', 'return RereGui')
+$required = @('WindowBg = Color3.fromRGB(14, 18, 24)', 'TitleBg = Color3.fromRGB(15, 19, 25)', 'TabActive = Color3.fromRGB(63, 111, 155)', 'Header = Color3.fromRGB(30, 61, 93)', 'TextSize = 15', 'textObject.TextSize = size or RereGui.Theme.TextSize', 'textObject.Font = Enum.Font.Code', 'expanded and "▼" or "▶"', 'local function parentGui', 'environment.gethui', 'synapse.protect_gui', 'game:GetService("CoreGui")', 'function RereGui.new', 'function Window:Tab', 'function Tab:Checkbox', 'function Tab:Slider', 'function Tab:InputText', 'function Tab:CollapsingHeader', 'return RereGui')
 foreach ($marker in $required) {
     if (-not $module.Contains($marker)) { throw "Missing expected public primitive: $marker" }
 }

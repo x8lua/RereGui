@@ -1,16 +1,16 @@
-RereGui visual verification
-Changed branch/field: Visuals / Font
+RereGui reference palette verification
+Changed branch/field: Visuals / ThemePalette
 Artifacts:
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: Font = RobotoMono Regular
-Modified input: Font = Enum.Font.Code (TextSize remains 15)
-MODIFIED_FILE.lua SHA-256: 272137AB4EB79582C5281801C8A56F34BC23CC0DB3AF0C5C6F493DEB2FA182B5
+Original/baseline input: bright blue title and headers
+Modified input: sampled #0E1218 canvas, #0F1319 title, #1E2634 tabs, #3F6F9B active tab, #1E3D5D headers
+MODIFIED_FILE.lua SHA-256: E59FC9B04AF9A9E58B9DA0DBC5DAE860416CA272ADF934D8C0AC6E37C5204C5E
 
 BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: UI rendered with RobotoMono Regular.
+BASELINE literal output: UI rendered with the previous bright blue theme.
 BASELINE exit status: 0
 
 MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
@@ -20,4 +20,4 @@ MODIFIED exit status: 0
 ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
 ROLLBACK literal output: rollback result: restored behavior/status
 ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains Value = "RobotoMono Regular" after execution; MODIFIED_FILE.lua remains changed at Value = "Enum.Font.Code".
+Restored behavior/status: rollback-copy.lua contains the previous theme description after execution; MODIFIED_FILE.lua remains changed with the sampled palette.

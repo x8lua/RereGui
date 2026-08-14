@@ -14,14 +14,14 @@ export type Theme = {
 }
 
 RereGui.Theme = {
-	WindowBg = Color3.fromRGB(17, 22, 29), Border = Color3.fromRGB(54, 72, 91),
-	TitleBg = Color3.fromRGB(38, 82, 126), TitleBgInactive = Color3.fromRGB(32, 47, 64),
-	TabBg = Color3.fromRGB(25, 35, 47), TabActive = Color3.fromRGB(48, 89, 132),
-	TabHover = Color3.fromRGB(39, 62, 87), FrameBg = Color3.fromRGB(20, 31, 43),
-	FrameHover = Color3.fromRGB(29, 49, 71), Accent = Color3.fromRGB(42, 114, 181),
-	AccentHover = Color3.fromRGB(63, 137, 204), Text = Color3.fromRGB(232, 238, 245),
-	TextMuted = Color3.fromRGB(164, 180, 195), Header = Color3.fromRGB(35, 76, 117),
-	HeaderHover = Color3.fromRGB(48, 96, 143), TextSize = 15,
+	WindowBg = Color3.fromRGB(14, 18, 24), Border = Color3.fromRGB(61, 52, 62),
+	TitleBg = Color3.fromRGB(15, 19, 25), TitleBgInactive = Color3.fromRGB(15, 19, 25),
+	TabBg = Color3.fromRGB(30, 38, 52), TabActive = Color3.fromRGB(63, 111, 155),
+	TabHover = Color3.fromRGB(44, 68, 94), FrameBg = Color3.fromRGB(15, 19, 25),
+	FrameHover = Color3.fromRGB(30, 38, 52), Accent = Color3.fromRGB(63, 111, 155),
+	AccentHover = Color3.fromRGB(80, 129, 174), Text = Color3.fromRGB(223, 230, 238),
+	TextMuted = Color3.fromRGB(138, 153, 172), Header = Color3.fromRGB(30, 61, 93),
+	HeaderHover = Color3.fromRGB(44, 85, 123), TextSize = 15,
 } :: Theme
 
 local function make(className: string, properties: {[string]: any}): Instance
