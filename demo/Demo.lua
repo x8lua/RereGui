@@ -18,8 +18,8 @@ local chunk = compiler(source)
 assert(type(chunk) == "function", "RereGui: compiler returned no chunk")
 local RereGui = chunk()
 
-local window = RereGui.new("Dear RereGui Demo", {
-	Size = UDim2.fromOffset(650, 430),
+local window = RereGui.new("Dear ReGui Demo", {
+	Size = UDim2.fromOffset(800, 550),
 	ToggleKey = Enum.KeyCode.RightShift,
 })
 
@@ -29,16 +29,16 @@ demo:Menu("Menu", {
 	{Text = "Tabs window", Callback = function() print("Use the Tabs page") end},
 	{Text = "Configuration", Callback = function() print("Settings ready") end},
 })
-demo:Label("Dear RereGui (0.1.0)")
-for _, title in ipairs({"Help", "Configuration", "Windows", "Widgets", "Popups & child windows", "Tables & Columns"}) do
+demo:Label("Dear ReGui says hello! (1.4.0)")
+for _, title in ipairs({"Help", "Configuration", "Window options", "Widgets", "Popups & child windows", "Tables & Columns"}) do
 	local group = demo:CollapsingHeader(title, false)
 	group:Label("Content for " .. title)
 end
 
-local tabs = window:Tab("Tabs")
-tabs:Label("This is the Avocado tab!")
-tabs:Separator()
-tabs:Checkbox("Checkbox", true, function(value) print("Checkbox:", value) end)
-tabs:Slider("Slider Int", 0, 10, 5, function(value) print("Slider:", value) end)
-tabs:InputText("Input text", "Hello world!", function(value) print("Input:", value) end)
-tabs:Button("Print hello", function() print("Hello world!") end)
+local examples = window:Tab("Examples")
+examples:Label("This is the Examples tab!")
+examples:Separator()
+examples:Checkbox("Checkbox", true, function(value) print("Checkbox:", value) end)
+examples:Slider("Slider Int", 0, 10, 5, function(value) print("Slider:", value) end)
+examples:InputText("Input text", "Hello world!", function(value) print("Input:", value) end)
+examples:Button("Print hello", function() print("Hello world!") end)
