@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is the complete official demo.
+-- Transaction fixture: the changed branch is executor prefab import.
 return {
-	Branch = "Demo",
-	Field = "Example",
-	Value = "Full ReGui example with executor loader",
+	Branch = "Runtime",
+	Field = "PrefabLoader",
+	Value = "InsertService:LoadLocalAsset -> game:GetObjects",
 }

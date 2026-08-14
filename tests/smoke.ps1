@@ -2,7 +2,9 @@ $module = Get-Content "$PSScriptRoot\..\src\RereGui.lua" -Raw
 $required = @(
     'Version = "1.3.2"',
     'function ReGui:Init(Overwrites)',
-    'game:GetObjects("rbxassetid://" .. tostring(self.PrefabsId))[1]',
+    'game:GetService("InsertService"):LoadLocalAsset(assetUrl)',
+    'game:GetObjects(assetUrl)[1]',
+    'Could not load ReGui-Prefabs',
     'function ReGui:DefineElement(Name: string, Data)',
     'function ReGui:MakeDraggable(Config: MakeDraggableFlags)',
     'function ReGui:MakeResizable(Config: MakeResizableFlags)',

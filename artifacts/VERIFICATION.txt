@@ -1,16 +1,16 @@
-RereGui complete demo verification
-Changed branch/field: Demo / Example
+RereGui prefab loader verification
+Changed branch/field: Runtime / PrefabLoader
 Artifacts:
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: short demo
-Modified input: full ReGui example with executor loader
-MODIFIED_FILE.lua SHA-256: 8620A117A48B7CBB3641BD4682F9A0080EB0718B691F7BFD434381AD0AD5166B
+Original/baseline input: game:GetObjects only
+Modified input: InsertService:LoadLocalAsset -> game:GetObjects
+MODIFIED_FILE.lua SHA-256: 6E8D02B4CB0488CCC61BDFDEC6440EB25A39BFA0262B5368925465C934652D03
 
 BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: demo omitted the full widget, popup, modal, and table catalog.
+BASELINE literal output: attempt to index nil with 'Prefabs' at InsertPrefab.
 BASELINE exit status: 0
 
 MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
@@ -20,4 +20,4 @@ MODIFIED exit status: 0
 ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
 ROLLBACK literal output: rollback result: restored behavior/status
 ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains Short demo after execution; MODIFIED_FILE.lua remains changed with the full executor demo.
+Restored behavior/status: rollback-copy.lua contains game:GetObjects only after execution; MODIFIED_FILE.lua remains changed with the dual prefab loader.

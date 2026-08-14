@@ -1,5 +1,5 @@
 --- MODIFIED_FILE.lua (baseline)
 +++ MODIFIED_FILE.lua (modified)
 @@
--	Value = "Short demo",
-+	Value = "Full ReGui example with executor loader",
+-	Value = "game:GetObjects only",
++	Value = "InsertService:LoadLocalAsset -> game:GetObjects",

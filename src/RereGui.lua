@@ -1110,6 +1110,9 @@ function ReGui:Init(Overwrites)
 	--// Fetch required assets
 	self:CheckConfig(self, {
 		Container = function()
+			if not self.Prefabs then
+				error("[RereGui] Could not load ReGui-Prefabs. This executor must support InsertService:LoadLocalAsset or game:GetObjects.")
+			end
 			return self:InsertPrefab("Container", {
 				Parent = self.ContainerParent,
 				Name = self.ContainerName
@@ -1166,10 +1169,22 @@ function ReGui:LoadPrefabs(): Folder?
 	local PlayerUI = PlayerGui:WaitForChild(Name, 2)
 	if PlayerUI then return PlayerUI end
 
-	local ok, loaded = pcall(function()
-		return game:GetObjects("rbxassetid://" .. tostring(self.PrefabsId))[1]
+	local assetUrl = "rbxassetid://" .. tostring(self.PrefabsId)
+	local function loadPrefab(loader)
+		local ok, loaded = pcall(loader)
+		if ok and loaded and loaded:FindFirstChild("Prefabs") then return loaded end
+		return nil
+	end
+
+	local localAsset = loadPrefab(function()
+		return game:GetService("InsertService"):LoadLocalAsset(assetUrl)
 	end)
-	if ok and loaded then return loaded end
+	if localAsset then return localAsset end
+
+	local getObjectsAsset = loadPrefab(function()
+		return game:GetObjects(assetUrl)[1]
+	end)
+	if getObjectsAsset then return getObjectsAsset end
 
 	return nil
 end
