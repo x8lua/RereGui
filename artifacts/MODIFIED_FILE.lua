@@ -1257,7 +1257,7 @@ function ReGui:LoadPrefabs(): Folder?
 	child("UIListLayout", bullet, "UIListLayout")
 	template("SeparatorText", "Frame")
 	local header = template("CollapsingHeader", "Frame")
-	local title = child("Frame", header, "TitleBar")
+	local title = child("TextButton", header, "TitleBar")
 	local toggle = child("TextButton", title, "Toggle")
 	child("ImageLabel", toggle, "Icon")
 	local tabSelector = template("TabSelector", "Frame")
