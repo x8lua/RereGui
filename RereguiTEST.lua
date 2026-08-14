@@ -1210,7 +1210,158 @@ function ReGui:LoadPrefabs(): Folder?
 		return InsertAsset
 	end
 
-	error("[ReGui] Could not load ReGui-Prefabs. Make sure the prefab folder is present or the asset loader is available.")
+	--// Executor fallback: create the prefab tree used by the demo when
+	--// external asset loading is blocked.
+	local Root = Instance.new("Folder")
+	Root.Name = Name
+
+	local Prefabs = Instance.new("Folder")
+	Prefabs.Name = "Prefabs"
+	Prefabs.Parent = Root
+
+	local function Create(ClassName, Parent, ObjectName, Properties)
+		local Object = Instance.new(ClassName)
+		Object.Name = ObjectName
+		Object.Parent = Parent
+
+		if Properties then
+			for Key, Value in next, Properties do
+				pcall(function()
+					Object[Key] = Value
+				end)
+			end
+		end
+
+		return Object
+	end
+
+	local Container = Create("ScreenGui", Prefabs, "Container", {
+		IgnoreGuiInset = true,
+		ResetOnSpawn = false,
+		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+	})
+	Create("Folder", Container, "Windows")
+	Create("Folder", Container, "Overlays")
+
+	local Window = Create("CanvasGroup", Prefabs, "Window", {
+		Size = UDim2.fromOffset(400, 300),
+		BackgroundTransparency = 1,
+	})
+	local Content = Create("TextButton", Window, "Content", {
+		AutoButtonColor = false,
+		BorderSizePixel = 0,
+		Size = UDim2.fromScale(1, 1),
+		Text = "",
+	})
+	Create("UIStroke", Content, "UIStroke")
+	Create("Frame", Content, "TitleBar", {
+		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 0, 24),
+	})
+
+	local function AddList(Object)
+		Create("UIListLayout", Object, "UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		})
+		Create("UIPadding", Object, "UIPadding")
+	end
+
+	local Canvas = Create("Frame", Prefabs, "Canvas", {
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		Size = UDim2.fromScale(1, 0),
+		AutomaticSize = Enum.AutomaticSize.Y,
+	})
+	AddList(Canvas)
+
+	local ScrollingCanvas = Create("ScrollingFrame", Prefabs, "ScrollingCanvas", {
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		CanvasSize = UDim2.new(),
+		AutomaticCanvasSize = Enum.AutomaticSize.Y,
+		ScrollBarThickness = 9,
+		Size = UDim2.fromScale(1, 1),
+	})
+	AddList(ScrollingCanvas)
+
+	Create("TextButton", Prefabs, "ResizeGrab", {
+		AnchorPoint = Vector2.new(1, 1),
+		BackgroundTransparency = 1,
+		Position = UDim2.fromScale(1, 1),
+		Size = UDim2.fromOffset(18, 18),
+		Text = ">",
+		TextTransparency = 0.6,
+	})
+
+	local RadioButton = Create("TextButton", Prefabs, "RadioButton", {
+		AutoButtonColor = false,
+		BackgroundTransparency = 1,
+		Size = UDim2.fromOffset(20, 20),
+		Text = "",
+	})
+	Create("ImageLabel", RadioButton, "Icon", {
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		BackgroundTransparency = 1,
+		Position = UDim2.fromScale(0.5, 0.5),
+		Size = UDim2.fromScale(1, 1),
+	})
+
+	Create("TextLabel", Prefabs, "Label", {
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 0, 18),
+		Text = "Label",
+		TextXAlignment = Enum.TextXAlignment.Left,
+	})
+
+	local TabSelector = Create("Frame", Prefabs, "TabSelector", {
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		Size = UDim2.fromScale(1, 1),
+	})
+	local TabsBar = Create("Frame", TabSelector, "TabsBar", {
+		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 0, 26),
+	})
+	Create("UIListLayout", TabsBar, "UIListLayout", {
+		FillDirection = Enum.FillDirection.Horizontal,
+		SortOrder = Enum.SortOrder.LayoutOrder,
+	})
+	Create("UIStroke", TabsBar, "UIStroke")
+	local TemplateButton = Create("Frame", TabsBar, "TemplateButton", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromOffset(100, 26),
+		Visible = false,
+	})
+	local TabButton = Create("TextButton", TemplateButton, "Button", {
+		AutoButtonColor = false,
+		BorderSizePixel = 0,
+		Size = UDim2.fromScale(1, 1),
+		Text = "",
+	})
+	Create("UIPadding", TabButton, "UIPadding")
+	Create("TextLabel", TabButton, "Label", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 1),
+		Text = "Tab",
+	})
+	local Body = Create("ScrollingFrame", TabSelector, "Body", {
+		AutomaticCanvasSize = Enum.AutomaticSize.Y,
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		CanvasSize = UDim2.new(),
+		Position = UDim2.fromOffset(0, 26),
+		Size = UDim2.new(1, 0, 1, -26),
+	})
+	local PageTemplate = Create("Frame", Body, "PageTemplate", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 0),
+		AutomaticSize = Enum.AutomaticSize.Y,
+		Visible = false,
+	})
+	AddList(PageTemplate)
+
+	return Root
 end
 
 function ReGui:ResolveContainerParent(): GuiObject?
