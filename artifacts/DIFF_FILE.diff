@@ -1,12 +1,17 @@
 ﻿diff --git a/src/RereGui.lua b/src/RereGui.lua
-index 721dad5..f6ef327 100644
+index f6ef327..a99c5a3 100644
 --- a/src/RereGui.lua
 +++ b/src/RereGui.lua
-@@ -1215,6 +1215,7 @@ function ReGui:LoadPrefabs(): Folder?
- 	end
- 	local container = template("Container", "ScreenGui")
- 	container.ResetOnSpawn = false
-+	child("Folder", container, "Windows")
- 	local window = template("Window", "CanvasGroup")
- 	local content = child("Frame", window, "Content")
- 	child("Frame", content, "TitleBar")
+@@ -1254,7 +1254,11 @@ function ReGui:LoadPrefabs(): Folder?
+ 	local title = child("Frame", header, "TitleBar")
+ 	local toggle = child("TextButton", title, "Toggle")
+ 	child("ImageLabel", toggle, "Icon")
+-	template("TabSelector", "Frame")
++	local tabSelector = template("TabSelector", "Frame")
++	local tabsBar = child("Frame", tabSelector, "TabsBar")
++	child("TextButton", tabsBar, "TemplateButton")
++	local tabBody = child("Frame", tabSelector, "Body")
++	child("Frame", tabBody, "PageTemplate")
+ 	template("Histogram", "Frame")
+ 	template("Viewport", "ViewportFrame")
+ 	template("Console", "Frame")
