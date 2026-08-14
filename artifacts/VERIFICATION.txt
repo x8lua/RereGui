@@ -1,23 +1,18 @@
-RereGui prefab loader verification
-Changed branch/field: Runtime / PrefabLoader
-Artifacts:
-C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
-C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
-C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
-C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: game:GetObjects only
-Modified input: InsertService:LoadLocalAsset -> game:GetObjects
-MODIFIED_FILE.lua SHA-256: 6E8D02B4CB0488CCC61BDFDEC6440EB25A39BFA0262B5368925465C934652D03
+Changed branch/field: ReGui prefab loading and InsertPrefab folder resolution.
 
-BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: attempt to index nil with 'Prefabs' at InsertPrefab.
-BASELINE exit status: 0
+BASELINE
+Command: git show HEAD:src/RereGui.lua | Select-String -Pattern 'local Prefabs = Folder.Prefabs'
+Literal output/result: found the direct indexing implementation.
+Exit status: 0
 
-MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-MODIFIED literal output: RereGui full-source smoke test passed: initialization, prefab fallback, direct elements, and generated variants are present.
-MODIFIED exit status: 0
+MODIFIED
+Command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
+Literal output/result: RereGui full-source smoke test passed: initialization, prefab fallback, direct elements, and generated variants are present.
+Exit status: 0
 
-ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
-ROLLBACK literal output: rollback result: restored behavior/status
-ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains game:GetObjects only after execution; MODIFIED_FILE.lua remains changed with the dual prefab loader.
+ROLLBACK
+Command: sh artifacts/ROLLBACK.sh
+Literal output/result: rollback restored ROLLBACK_COPY.lua to BASELINE_FILE.lua; cmp succeeded.
+Exit status: 0
+
+Restored behavior/status: ROLLBACK_COPY.lua matches BASELINE_FILE.lua while src/RereGui.lua and MODIFIED_FILE.lua remain on the modified branch.

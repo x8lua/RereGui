@@ -1163,16 +1163,28 @@ function ReGui:LoadPrefabs(): Folder?
 
 	--// Check script for prefabs
 	local ScriptUi = script and script:FindFirstChild(Name)
-	if ScriptUi then return ScriptUi end
 
 	--// Check PlayerGui for prefabs (Studio Debug)
-	local PlayerUI = PlayerGui:WaitForChild(Name, 2)
-	if PlayerUI then return PlayerUI end
-
 	local assetUrl = "rbxassetid://" .. tostring(self.PrefabsId)
+	local function normalizePrefabRoot(loaded)
+		if not loaded then return nil end
+		-- Executors can return either ReGui-Prefabs (containing Prefabs) or
+		-- the Prefabs folder directly. Normalize both to the folder used below.
+		if loaded.Name == "Prefabs" then return loaded end
+		return loaded:FindFirstChild("Prefabs", true)
+	end
+	if ScriptUi then
+		local embedded = normalizePrefabRoot(ScriptUi)
+		if embedded then return embedded end
+	end
+	local PlayerUI = PlayerGui:WaitForChild(Name, 2)
+	if PlayerUI then
+		local localUi = normalizePrefabRoot(PlayerUI)
+		if localUi then return localUi end
+	end
 	local function loadPrefab(loader)
 		local ok, loaded = pcall(loader)
-		if ok and loaded and loaded:FindFirstChild("Prefabs") then return loaded end
+		if ok then return normalizePrefabRoot(loaded) end
 		return nil
 	end
 
@@ -2131,7 +2143,10 @@ end
 
 function ReGui:InsertPrefab(Name: string, Properties): Instance
 	local Folder = self.Prefabs
-	local Prefabs = Folder.Prefabs
+	local Prefabs = Folder and (Folder.Name == "Prefabs" and Folder or Folder:FindFirstChild("Prefabs", true))
+	if not Prefabs then
+		error(string.format("[RereGui] Prefab folder is unavailable while creating '%s'. Re-run ReGui:Init() after the executor loads asset %s.", Name, tostring(self.PrefabsId)))
+	end
 
 	local Element = Prefabs:WaitForChild(Name)
 	local New = Element:Clone()
