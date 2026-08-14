@@ -1098,27 +1098,20 @@ function ReGui:Init(Overwrites)
 	})
 
 	--// Fetch folders
-	self:CheckConfig(self, {
-		ContainerParent = function()
-			return self:ResolveContainerParent()
-		end,
-		Prefabs = function()
-			return self:LoadPrefabs()
-		end,
-	}, true)
+	if not self.ContainerParent then
+		self.ContainerParent = self:ResolveContainerParent()
+	end
+	if not self.Prefabs then
+		self.Prefabs = self:LoadPrefabs()
+	end
 
 	--// Fetch required assets
-	self:CheckConfig(self, {
-		Container = function()
-			if not self.Prefabs then
-				error("[RereGui] Could not load ReGui-Prefabs. This executor must support InsertService:LoadLocalAsset or game:GetObjects.")
-			end
-			return self:InsertPrefab("Container", {
-				Parent = self.ContainerParent,
-				Name = self.ContainerName
-			})
-		end,
-	}, true)
+	if not self.Container then
+		self.Container = self:InsertPrefab("Container", {
+			Parent = self.ContainerParent,
+			Name = self.ContainerName
+		})
+	end
 
 	--// MouseEvents
 	local LastClick = 0
@@ -1294,7 +1287,8 @@ function ReGui:LoadPrefabs(): Folder?
 	template("Console", "Frame")
 	child("TextBox", Root:FindFirstChild("Console"), "Source")
 	local tableTemplate = template("Table", "Frame")
-	child("Frame", tableTemplate, "RowTemp")
+	local rowTemplate = child("Frame", tableTemplate, "RowTemp")
+	child("UIListLayout", rowTemplate, "UIListLayout")
 	template("ModalEffect", "Frame")
 	return Root
 end
