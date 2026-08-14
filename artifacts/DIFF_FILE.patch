@@ -1,5 +1,5 @@
 --- MODIFIED_FILE.lua (baseline)
 +++ MODIFIED_FILE.lua (modified)
 @@
--	Value = "2px tab spacing + regular code text",
-+	Value = "#1D2532 #2F72B6 + 0.65 text stroke",
+-	Value = "simplified RereGui primitives",
++	Value = "ReGui 1.3.2 complete element registry",

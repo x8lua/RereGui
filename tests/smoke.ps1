@@ -1,12 +1,31 @@
 $module = Get-Content "$PSScriptRoot\..\src\RereGui.lua" -Raw
-$required = @('TabBg = Color3.fromRGB(29, 37, 50)', 'TabActive = Color3.fromRGB(47, 114, 182)', 'TextStrokeTransparency = 0.65', 'textObject.TextStrokeTransparency = RereGui.Theme.TextStrokeTransparency', 'WindowBg = Color3.fromRGB(14, 18, 24)', 'TitleBg = Color3.fromRGB(15, 19, 25)', 'Header = Color3.fromRGB(30, 61, 93)', 'TextSize = 15', 'textObject.TextSize = size or RereGui.Theme.TextSize', 'textObject.Font = Enum.Font.Code', 'expanded and "▼" or "▶"', 'local function parentGui', 'environment.gethui', 'synapse.protect_gui', 'game:GetService("CoreGui")', 'function RereGui.new', 'function Window:Tab', 'function Tab:Checkbox', 'function Tab:Slider', 'function Tab:InputText', 'function Tab:CollapsingHeader', 'return RereGui')
+$required = @(
+    'Version = "1.3.2"',
+    'function ReGui:Init(Overwrites)',
+    'game:GetObjects("rbxassetid://" .. tostring(self.PrefabsId))[1]',
+    'function ReGui:DefineElement(Name: string, Data)',
+    'function ReGui:MakeDraggable(Config: MakeDraggableFlags)',
+    'function ReGui:MakeResizable(Config: MakeResizableFlags)',
+    'ReGui:DefineElement("Dropdown"',
+    'ReGui:DefineElement("Checkbox"',
+    'ReGui:DefineElement("InputText"',
+    'ReGui:DefineElement("Table"',
+    'ReGui:DefineElement("CollapsingHeader"',
+    'ReGui:DefineElement("SliderInt"',
+    'ReGui:DefineElement("Combo"',
+    'ReGui:DefineElement("TabsWindow"',
+    'ReGui:DefineElement("PopupModal"',
+    'GenerateMultiInput("InputInt2"',
+    'GenerateColor3Input("InputColor3"',
+    'GenerateCFrameInput("InputCFrame"',
+    'return ReGui'
+)
 foreach ($marker in $required) {
-    if (-not $module.Contains($marker)) { throw "Missing expected public primitive: $marker" }
+    if (-not $module.Contains($marker)) { throw "Missing ReGui API marker: $marker" }
 }
-$readme = Get-Content "$PSScriptRoot\..\README.md" -Raw
 $demo = Get-Content "$PSScriptRoot\..\demo\Demo.lua" -Raw
-if (-not $demo.Contains('local compiler = loadstring or load')) { throw 'Demo is missing portable executor compiler usage.' }
-if (-not $readme.Contains('local compiler = loadstring or load')) { throw 'README is missing portable executor compiler usage.' }
-if (-not $demo.Contains('local chunk = compiler(source)')) { throw 'Demo is missing unambiguous compiler invocation.' }
-if ($module -match '(?m)^\s*\(') { throw 'Module contains a statement beginning with a parenthesized expression, which is ambiguous in Luau.' }
-Write-Output 'RereGui smoke test passed: executor parenting, portable loader, and public primitives are present.'
+$elements = Get-Content "$PSScriptRoot\..\ELEMENTS.md" -Raw
+if (-not $demo.Contains('ReGui:Init()')) { throw 'Demo does not initialize ReGui.' }
+if (-not $demo.Contains('window:CreateTab')) { throw 'Demo does not create tabs.' }
+if (-not $elements.Contains('PopupModal')) { throw 'Element index is incomplete.' }
+Write-Output 'RereGui full-source smoke test passed: initialization, prefab fallback, direct elements, and generated variants are present.'

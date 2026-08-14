@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is compact tab styling and text weight.
+-- Transaction fixture: the changed branch is complete source integration.
 return {
-	Branch = "Tabs",
-	Field = "PaletteAndWeight",
-	Value = "#1D2532 #2F72B6 + 0.65 text stroke",
+	Branch = "Library",
+	Field = "Elements",
+	Value = "ReGui 1.3.2 complete element registry",
 }

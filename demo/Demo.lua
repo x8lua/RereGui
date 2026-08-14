@@ -1,44 +1,29 @@
-local function fetch(url)
-	if type(game.HttpGet) == "function" then
-		local ok, body = pcall(function() return game:HttpGet(url) end)
-		if ok and type(body) == "string" then return body end
-	end
-	local environment = (getgenv and getgenv()) or getfenv()
-	local requester = environment.request or environment.http_request or (environment.syn and environment.syn.request)
-	assert(type(requester) == "function", "RereGui: executor has no HTTP request function")
-	local response = requester({Url = url, Method = "GET"})
-	assert(response and response.Body, "RereGui: HTTP request returned no body")
-	return response.Body
-end
-
 local compiler = loadstring or load
-assert(type(compiler) == "function", "RereGui: executor must expose loadstring or load")
-local source = fetch("https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua")
-local chunk = compiler(source)
-assert(type(chunk) == "function", "RereGui: compiler returned no chunk")
-local RereGui = chunk()
+assert(type(compiler) == "function", "ReGui: executor must expose loadstring or load")
+local source = game:HttpGet("https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua")
+local chunk = assert(compiler(source))
+local ReGui = chunk()
 
-local window = RereGui.new("Dear RereGui Demo", {
+ReGui:Init()
+
+local window = ReGui:TabsWindow({
+	Title = "Dear ReGui Demo",
 	Size = UDim2.fromOffset(650, 430),
-	ToggleKey = Enum.KeyCode.RightShift,
+	Position = UDim2.fromScale(0.5, 0.5),
+	AnchorPoint = Vector2.new(0.5, 0.5),
 })
 
-local demo = window:Tab("Demo")
-demo:Menu("Menu", {
-	{Text = "Print hello", Callback = function() print("Hello from RereGui") end},
-	{Text = "Tabs window", Callback = function() print("Use the Tabs page") end},
-	{Text = "Configuration", Callback = function() print("Settings ready") end},
-})
-demo:Label("Dear RereGui (0.1.0)")
-for _, title in ipairs({"Help", "Configuration", "Windows", "Widgets", "Popups & child windows", "Tables & Columns"}) do
-	local group = demo:CollapsingHeader(title, false)
-	group:Label("Content for " .. title)
+local demo = window:CreateTab({Name = "Demo"})
+demo:Label({Text = "Dear ReGui says hello! (1.3.2)"})
+for _, title in ipairs({"Help", "Configuration", "Window options", "Widgets", "Popups & child windows", "Tables & Columns"}) do
+	local section = demo:CollapsingHeader({Title = title})
+	section:Label({Text = "Content for " .. title})
 end
 
-local tabs = window:Tab("Tabs")
-tabs:Label("This is the Avocado tab!")
-tabs:Separator()
-tabs:Checkbox("Checkbox", true, function(value) print("Checkbox:", value) end)
-tabs:Slider("Slider Int", 0, 10, 5, function(value) print("Slider:", value) end)
-tabs:InputText("Input text", "Hello world!", function(value) print("Input:", value) end)
-tabs:Button("Print hello", function() print("Hello world!") end)
+local tabs = window:CreateTab({Name = "Tabs"})
+tabs:Label({Text = "This is the Avocado tab!"})
+tabs:Separator({})
+tabs:Checkbox({Label = "Checkbox", Value = true})
+tabs:SliderInt({Label = "Slider Int", Minimum = 0, Maximum = 10, Value = 5})
+tabs:InputText({Label = "Input text", Text = "Hello world!"})
+tabs:Button({Text = "Print hello", Callback = function() print("Hello world!") end})

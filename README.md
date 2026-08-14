@@ -1,40 +1,44 @@
 # RereGui
 
-`RereGui` is a compact, Dear ImGui-inspired Roblox executor UI library. It recreates the dense desktop presentation from the supplied ReGui reference without depending on the deleted project.
-
-## Initial feature set
-
-- Draggable, closable windows with a configurable toggle key
-- Tab bar and independently scrollable pages
-- Menus, labels, buttons, separators, collapsible headers
-- Checkboxes, numeric sliders, and text inputs
-- One centrally editable dark/blue theme
+`RereGui` now ships the complete ReGui 1.3.2 source supplied by the project owner, including the original MIT attribution and all registered widgets.
 
 ## Executor usage
-
-Load the library from an executor with HTTP and either `loadstring` or `load`:
 
 ```lua
 local compiler = loadstring or load
 local source = game:HttpGet("https://raw.githubusercontent.com/x8lua/RereGui/main/src/RereGui.lua")
 local chunk = assert(compiler(source))
-local RereGui = chunk()
+local ReGui = chunk()
 
-local window = RereGui.new("My window")
-local tab = window:Tab("Main")
-tab:Checkbox("Enabled", true, function(enabled)
-    print(enabled)
-end)
+ReGui:Init()
+
+local window = ReGui:TabsWindow({
+    Title = "My window",
+    Size = UDim2.fromOffset(640, 420),
+})
+
+local tab = window:CreateTab({Name = "Main"})
+tab:Checkbox({Label = "Enabled", Value = true})
 ```
 
-The library parents to `gethui()` when available. On executors without `gethui`, it uses `syn.protect_gui` when exposed and parents to `CoreGui`. An explicit `Parent` option remains available.
+`Init()` creates the ReGui container and loads the required prefab asset (`71968920594655`) when the source is used through an executor. The module first checks for embedded/local prefabs before loading that asset.
 
-The default visibility key is `RightShift`; set `ToggleKey` in `RereGui.new` to change it. See `demo/Demo.lua` for the full executor example.
+Run the complete demonstration with:
 
-## Repository layout
+```lua
+local compiler = loadstring or load
+local source = game:HttpGet("https://raw.githubusercontent.com/x8lua/RereGui/main/demo/Demo.lua")
+assert(compiler(source))()
+```
+
+## Elements
+
+See [ELEMENTS.md](ELEMENTS.md) for every direct and generated element in the complete source.
+
+## Layout
 
 ```
-src/RereGui.lua      executor-loadable library
-demo/Demo.lua        complete executor example
-tests/smoke.ps1      repository smoke checks
+src/RereGui.lua      complete ReGui source
+demo/Demo.lua        executor demo
+ELEMENTS.md          full element index
 ```

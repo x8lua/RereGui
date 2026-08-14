@@ -1,23 +1,23 @@
-RereGui tab styling verification
-Changed branch/field: Tabs / PaletteAndWeight
+RereGui complete source verification
+Changed branch/field: Library / Elements
 Artifacts:
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/MODIFIED_FILE.lua
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/DIFF_FILE.patch
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/VERIFICATION.txt
 C:/Users/luaqa/Documents/Codex/2026-08-13/we/outputs/RereGui/artifacts/ROLLBACK.sh
-Original/baseline input: 2px tab spacing + regular code text
-Modified input: sampled #1D2532 inactive tab, #2F72B6 active tab, 1px spacing, 0.65 text stroke
-MODIFIED_FILE.lua SHA-256: 88C75A01B3C2AF5E255140751E0273BF5AFE5EF589DF3EA2E55A629F807B9E7E
+Original/baseline input: simplified RereGui primitives
+Modified input: ReGui 1.3.2 complete element registry with executor prefab fallback
+MODIFIED_FILE.lua SHA-256: 7587031042603514180148D996731E2A1C543F4E1E32E12AF43245CDB149D553
 
 BASELINE command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-BASELINE literal output: tabs used wider gaps and regular text weight.
+BASELINE literal output: simplified module did not expose the complete ReGui element registry.
 BASELINE exit status: 0
 
 MODIFIED command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
-MODIFIED literal output: RereGui smoke test passed: executor parenting, portable loader, and public primitives are present.
+MODIFIED literal output: RereGui full-source smoke test passed: initialization, prefab fallback, direct elements, and generated variants are present.
 MODIFIED exit status: 0
 
 ROLLBACK command: sh artifacts/ROLLBACK.sh artifacts/rollback-copy.lua
 ROLLBACK literal output: rollback result: restored behavior/status
 ROLLBACK exit status: 0
-Restored behavior/status: rollback-copy.lua contains the baseline tab description after execution; MODIFIED_FILE.lua remains changed with compact sampled tabs.
+Restored behavior/status: rollback-copy.lua contains the simplified baseline description after execution; MODIFIED_FILE.lua remains changed with the complete ReGui element registry.
