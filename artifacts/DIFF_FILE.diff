@@ -1,13 +1,33 @@
 ﻿diff --git a/src/RereGui.lua b/src/RereGui.lua
-index 26376f5..e44548e 100644
+index e44548e..f66dd2b 100644
 --- a/src/RereGui.lua
 +++ b/src/RereGui.lua
-@@ -1217,7 +1217,7 @@ function ReGui:LoadPrefabs(): Folder?
- 	container.ResetOnSpawn = false
- 	child("Folder", container, "Windows")
- 	local window = template("Window", "CanvasGroup")
--	local content = child("Frame", window, "Content")
-+	local content = child("TextButton", window, "Content")
- 	child("Frame", content, "TitleBar")
- 	local canvas = template("Canvas", "Frame")
- 	child("UIListLayout", canvas, "UIListLayout")
+@@ -1225,8 +1225,10 @@ function ReGui:LoadPrefabs(): Folder?
+ 	child("UIListLayout", scrolling, "UIListLayout")
+ 	local button = template("Button", "TextButton")
+ 	local label = template("Label", "TextLabel")
+-	template("ArrowButton", "TextButton")
+-	template("RadioButton", "TextButton")
++	local arrowButton = template("ArrowButton", "TextButton")
++	child("ImageLabel", arrowButton, "Icon")
++	local radioButton = template("RadioButton", "TextButton")
++	child("ImageLabel", radioButton, "Icon")
+ 	local checkbox = template("CheckBox", "Frame")
+ 	child("TextButton", checkbox, "Tickbox")
+ 	template("ResizeGrab", "TextButton")
+@@ -1257,9 +1259,13 @@ function ReGui:LoadPrefabs(): Folder?
+ 	local tabSelector = template("TabSelector", "Frame")
+ 	local tabsBar = child("Frame", tabSelector, "TabsBar")
+ 	child("UIStroke", tabsBar, "Line")
+-	child("TextButton", tabsBar, "TemplateButton")
++	local tabTemplate = child("Frame", tabsBar, "TemplateButton")
++	local tabButton = child("TextButton", tabTemplate, "Button")
++	child("TextLabel", tabButton, "Label")
++	child("UIPadding", tabButton, "UIPadding")
+ 	local tabBody = child("Frame", tabSelector, "Body")
+-	child("Frame", tabBody, "PageTemplate")
++	local pageTemplate = child("Frame", tabBody, "PageTemplate")
++	child("UIPadding", pageTemplate, "UIPadding")
+ 	template("Histogram", "Frame")
+ 	template("Viewport", "ViewportFrame")
+ 	template("Console", "Frame")
