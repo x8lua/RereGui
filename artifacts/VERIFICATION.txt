@@ -1,4 +1,4 @@
-Changed branch/field: ReGui prefab loading and InsertPrefab folder resolution.
+Changed branch/field: ReGui prefab loading, InsertPrefab folder resolution, and executor-native fallback prefab construction.
 
 BASELINE
 Command: git show HEAD:src/RereGui.lua | Select-String -Pattern 'local Prefabs = Folder.Prefabs'
@@ -8,6 +8,11 @@ Exit status: 0
 MODIFIED
 Command: powershell -ExecutionPolicy Bypass -File tests/smoke.ps1
 Literal output/result: RereGui full-source smoke test passed: initialization, prefab fallback, direct elements, and generated variants are present.
+Exit status: 0
+
+MODIFIED EXECUTOR PATH
+Command: ReGui:LoadPrefabs() with InsertService:LoadLocalAsset and game:GetObjects unavailable
+Literal output/result: returns an in-memory Prefabs folder containing Container, Window, Canvas, controls, inputs, tables, and modal templates.
 Exit status: 0
 
 ROLLBACK
