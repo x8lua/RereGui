@@ -1,76 +1,12 @@
 ﻿diff --git a/src/RereGui.lua b/src/RereGui.lua
-index d04f936..721dad5 100644
+index 721dad5..f6ef327 100644
 --- a/src/RereGui.lua
 +++ b/src/RereGui.lua
-@@ -1198,7 +1198,70 @@ function ReGui:LoadPrefabs(): Folder?
- 	end)
- 	if getObjectsAsset then return getObjectsAsset end
- 
--	return nil
-+	--// Executor fallback: build the small prefab tree in memory when asset
-+	--// loading is unavailable. This keeps the library usable in executors
-+	--// that block InsertService and GetObjects.
-+	local Root = Instance.new("Folder")
-+	Root.Name = "Prefabs"
-+	local function child(className, parent, name)
-+		local object = Instance.new(className)
-+		object.Name = name
-+		object.Parent = parent
-+		return object
-+	end
-+	local function template(name, className)
-+		local object = child(className, Root, name)
-+		return object
-+	end
-+	local container = template("Container", "ScreenGui")
-+	container.ResetOnSpawn = false
-+	local window = template("Window", "CanvasGroup")
-+	local content = child("Frame", window, "Content")
-+	child("Frame", content, "TitleBar")
-+	local canvas = template("Canvas", "Frame")
-+	child("UIListLayout", canvas, "UIListLayout")
-+	local scrolling = template("ScrollingCanvas", "ScrollingFrame")
-+	child("UIListLayout", scrolling, "UIListLayout")
-+	local button = template("Button", "TextButton")
-+	local label = template("Label", "TextLabel")
-+	template("ArrowButton", "TextButton")
-+	template("RadioButton", "TextButton")
-+	local checkbox = template("CheckBox", "Frame")
-+	child("TextButton", checkbox, "Tickbox")
-+	template("ResizeGrab", "TextButton")
-+	template("Overlay", "Frame")
-+	local overlayScroll = template("OverlayScroll", "ScrollingFrame")
-+	child("Frame", overlayScroll, "ContentFrame")
-+	template("Image", "ImageButton")
-+	template("VideoPlayer", "VideoFrame")
-+	local input = template("InputBox", "Frame")
-+	local inputFrame = child("Frame", input, "Frame")
-+	child("TextBox", inputFrame, "Input")
-+	local slider = template("Slider", "Frame")
-+	local track = child("Frame", slider, "Track")
-+	child("TextButton", track, "Grab")
-+	child("TextLabel", track, "ValueText")
-+	local combo = template("Combo", "Frame")
-+	child("TextButton", combo, "Combo")
-+	local list = template("List", "Frame")
-+	child("UIListLayout", list, "UIListLayout")
-+	template("Row", "Frame")
-+	template("Group", "Frame")
-+	template("Bullet", "Frame")
-+	template("SeparatorText", "Frame")
-+	local header = template("CollapsingHeader", "Frame")
-+	local title = child("Frame", header, "TitleBar")
-+	local toggle = child("TextButton", title, "Toggle")
-+	child("ImageLabel", toggle, "Icon")
-+	template("TabSelector", "Frame")
-+	template("Histogram", "Frame")
-+	template("Viewport", "ViewportFrame")
-+	template("Console", "Frame")
-+	child("TextBox", Root:FindFirstChild("Console"), "Source")
-+	local tableTemplate = template("Table", "Frame")
-+	child("Frame", tableTemplate, "RowTemp")
-+	template("ModalEffect", "Frame")
-+	return Root
- end
- 
- function ReGui:ResolveContainerParent(): GuiObject?
+@@ -1215,6 +1215,7 @@ function ReGui:LoadPrefabs(): Folder?
+ 	end
+ 	local container = template("Container", "ScreenGui")
+ 	container.ResetOnSpawn = false
++	child("Folder", container, "Windows")
+ 	local window = template("Window", "CanvasGroup")
+ 	local content = child("Frame", window, "Content")
+ 	child("Frame", content, "TitleBar")

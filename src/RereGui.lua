@@ -1215,6 +1215,7 @@ function ReGui:LoadPrefabs(): Folder?
 	end
 	local container = template("Container", "ScreenGui")
 	container.ResetOnSpawn = false
+	child("Folder", container, "Windows")
 	local window = template("Window", "CanvasGroup")
 	local content = child("Frame", window, "Content")
 	child("Frame", content, "TitleBar")
