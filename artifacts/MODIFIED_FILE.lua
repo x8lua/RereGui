@@ -1256,6 +1256,7 @@ function ReGui:LoadPrefabs(): Folder?
 	child("ImageLabel", toggle, "Icon")
 	local tabSelector = template("TabSelector", "Frame")
 	local tabsBar = child("Frame", tabSelector, "TabsBar")
+	child("UIStroke", tabsBar, "Line")
 	child("TextButton", tabsBar, "TemplateButton")
 	local tabBody = child("Frame", tabSelector, "Body")
 	child("Frame", tabBody, "PageTemplate")
