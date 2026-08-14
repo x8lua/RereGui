@@ -1,5 +1,5 @@
 --- MODIFIED_FILE.lua (baseline)
 +++ MODIFIED_FILE.lua (modified)
 @@
--	Value = "simplified RereGui primitives",
-+	Value = "ReGui 1.3.2 complete element registry",
+-	Value = "Short demo",
++	Value = "Full ReGui example with executor loader",

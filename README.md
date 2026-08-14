@@ -23,7 +23,7 @@ tab:Checkbox({Label = "Enabled", Value = true})
 
 `Init()` creates the ReGui container and loads the required prefab asset (`71968920594655`) when the source is used through an executor. The module first checks for embedded/local prefabs before loading that asset.
 
-Run the complete demonstration with:
+Run the complete official ReGui demo, including configuration, widget, popup, modal, table, tab, viewport, and input examples:
 
 ```lua
 local compiler = loadstring or load

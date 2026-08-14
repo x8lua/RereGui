@@ -1,6 +1,6 @@
--- Transaction fixture: the changed branch is complete source integration.
+-- Transaction fixture: the changed branch is the complete official demo.
 return {
-	Branch = "Library",
-	Field = "Elements",
-	Value = "ReGui 1.3.2 complete element registry",
+	Branch = "Demo",
+	Field = "Example",
+	Value = "Full ReGui example with executor loader",
 }
