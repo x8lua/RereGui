@@ -14,14 +14,14 @@ export type Theme = {
 }
 
 RereGui.Theme = {
-	WindowBg = Color3.fromRGB(15, 19, 28), Border = Color3.fromRGB(30, 37, 48),
-	TitleBg = Color3.fromRGB(22, 29, 41), TitleBgInactive = Color3.fromRGB(18, 23, 32),
-	TabBg = Color3.fromRGB(20, 26, 37), TabActive = Color3.fromRGB(30, 45, 64),
-	TabHover = Color3.fromRGB(25, 33, 47), FrameBg = Color3.fromRGB(18, 24, 35),
-	FrameHover = Color3.fromRGB(24, 32, 46), Accent = Color3.fromRGB(56, 189, 248),
-	AccentHover = Color3.fromRGB(96, 210, 255), Text = Color3.fromRGB(232, 238, 245),
-	TextMuted = Color3.fromRGB(148, 163, 184), Header = Color3.fromRGB(30, 45, 64),
-	HeaderHover = Color3.fromRGB(41, 98, 156), TextSize = 15,
+	WindowBg = Color3.fromRGB(17, 22, 29), Border = Color3.fromRGB(54, 72, 91),
+	TitleBg = Color3.fromRGB(38, 82, 126), TitleBgInactive = Color3.fromRGB(32, 47, 64),
+	TabBg = Color3.fromRGB(25, 35, 47), TabActive = Color3.fromRGB(48, 89, 132),
+	TabHover = Color3.fromRGB(39, 62, 87), FrameBg = Color3.fromRGB(20, 31, 43),
+	FrameHover = Color3.fromRGB(29, 49, 71), Accent = Color3.fromRGB(42, 114, 181),
+	AccentHover = Color3.fromRGB(63, 137, 204), Text = Color3.fromRGB(232, 238, 245),
+	TextMuted = Color3.fromRGB(164, 180, 195), Header = Color3.fromRGB(35, 76, 117),
+	HeaderHover = Color3.fromRGB(48, 96, 143), TextSize = 15,
 } :: Theme
 
 local function make(className: string, properties: {[string]: any}): Instance
@@ -110,10 +110,8 @@ function RereGui.new(title: string, options: {Size: UDim2?, Position: UDim2?, Pa
 		Name = "Window", Size = options.Size or UDim2.fromOffset(640, 420), Position = options.Position or UDim2.new(0.5, -320, 0.5, -210),
 		BackgroundColor3 = RereGui.Theme.WindowBg, BorderColor3 = RereGui.Theme.Border, BorderSizePixel = 1, Active = true, Parent = gui,
 	}) :: Frame
-	make("UICorner", {CornerRadius = UDim.new(0, 6), Parent = frame})
 	make("UISizeConstraint", {MinSize = Vector2.new(310, 170), MaxSize = Vector2.new(1100, 760), Parent = frame})
 	local titleBar = make("TextButton", {Name = "TitleBar", Size = UDim2.new(1, 0, 0, 27), BackgroundColor3 = RereGui.Theme.TitleBg, BorderSizePixel = 0, AutoButtonColor = false, Text = "", Parent = frame}) :: TextButton
-	make("UICorner", {CornerRadius = UDim.new(0, 6), Parent = titleBar})
 	drag(frame, titleBar)
 	local collapse = make("TextButton", {Size = UDim2.fromOffset(24, 24), Position = UDim2.fromOffset(2, 1), BackgroundTransparency = 1, AutoButtonColor = false, Parent = titleBar}) :: TextButton
 	text(collapse, "▼", 16)
@@ -121,9 +119,7 @@ function RereGui.new(title: string, options: {Size: UDim2?, Position: UDim2?, Pa
 	titleLabel.Size, titleLabel.Position = UDim2.new(1, -58, 1, 0), UDim2.fromOffset(28, 0)
 	local close = make("TextButton", {Size = UDim2.fromOffset(25, 25), Position = UDim2.new(1, -27, 0, 1), BackgroundTransparency = 1, AutoButtonColor = false, Parent = titleBar}) :: TextButton
 	text(close, "x", 19)
-	local tabs = make("Frame", {Name = "Tabs", Size = UDim2.new(1, -10, 0, 25), Position = UDim2.fromOffset(5, 30), BackgroundColor3 = RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, BorderSizePixel = 0, Parent = frame}) :: Frame
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = tabs})
-	make("UIPadding", {PaddingLeft = UDim.new(0, 3), PaddingRight = UDim.new(0, 3), Parent = tabs})
+	local tabs = make("Frame", {Name = "Tabs", Size = UDim2.new(1, -10, 0, 25), Position = UDim2.fromOffset(5, 30), BackgroundColor3 = RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, Parent = frame}) :: Frame
 	make("UIListLayout", {FillDirection = Enum.FillDirection.Horizontal, SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 2), Parent = tabs})
 	local content = make("Frame", {Name = "Content", Size = UDim2.new(1, -10, 1, -65), Position = UDim2.fromOffset(5, 60), BackgroundTransparency = 1, ClipsDescendants = true, Parent = frame}) :: Frame
 	local self = setmetatable({Gui = gui, Frame = frame, Tabs = {}, TabBar = tabs, Content = content, Visible = true, ToggleKey = options.ToggleKey or Enum.KeyCode.RightShift}, Window)
@@ -142,10 +138,8 @@ function Window:SetVisible(visible: boolean) self.Visible = visible; self.Gui.En
 function Window:Destroy() self.Gui:Destroy() end
 
 function Window:Tab(name: string)
-	local button = make("TextButton", {Name = name, Size = UDim2.fromOffset(0, 21), AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = RereGui.Theme.TabBg, BorderSizePixel = 0, AutoButtonColor = false, Parent = self.TabBar}) :: TextButton
-	make("UICorner", {CornerRadius = UDim.new(0, 3), Parent = button})
-	make("UIPadding", {PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10), Parent = button})
-	text(button, name)
+	local button = make("TextButton", {Name = name, Size = UDim2.fromOffset(0, 23), AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = RereGui.Theme.TabBg, BorderSizePixel = 0, AutoButtonColor = false, Parent = self.TabBar}) :: TextButton
+	text(button, "  " .. name .. "  ")
 	local page = make("ScrollingFrame", {Name = name, Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = 6, CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y, Visible = false, Parent = self.Content}) :: ScrollingFrame
 	make("UIPadding", {PaddingLeft = UDim.new(0, 2), PaddingRight = UDim.new(0, 7), PaddingTop = UDim.new(0, 2), Parent = page})
 	addList(page, 5)
@@ -171,8 +165,7 @@ function Tab:Separator()
 end
 
 function Tab:Button(value: string, callback: (() -> ())?)
-	local item = make("TextButton", {Size = UDim2.new(0, 150, 0, 26), BackgroundColor3 = RereGui.Theme.Accent, BorderSizePixel = 0, AutoButtonColor = false, Parent = self.Page}) :: TextButton
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = item})
+	local item = make("TextButton", {Size = UDim2.new(0, 150, 0, 23), BackgroundColor3 = RereGui.Theme.Accent, BorderColor3 = RereGui.Theme.Border, AutoButtonColor = false, Parent = self.Page}) :: TextButton
 	text(item, value); item.MouseEnter:Connect(function() item.BackgroundColor3 = RereGui.Theme.AccentHover end); item.MouseLeave:Connect(function() item.BackgroundColor3 = RereGui.Theme.Accent end)
 	if callback then item.MouseButton1Click:Connect(callback) end
 	return item
@@ -181,26 +174,21 @@ end
 function Tab:Checkbox(value: string, default: boolean?, callback: ((boolean) -> ())?)
 	local checked = default == true
 	local item = make("TextButton", {Size = UDim2.new(1, 0, 0, 22), BackgroundTransparency = 1, AutoButtonColor = false, Text = "", Parent = self.Page}) :: TextButton
-	local box = make("Frame", {Size = UDim2.fromOffset(16, 16), Position = UDim2.fromOffset(3, 3), BackgroundColor3 = checked and RereGui.Theme.Accent or RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, Parent = item}) :: Frame
-	make("UICorner", {CornerRadius = UDim.new(0, 3), Parent = box})
-	local tick = label(box, checked and "✓" or ""); tick.Size = UDim2.fromScale(1, 1); tick.TextXAlignment, tick.TextYAlignment = Enum.TextXAlignment.Center, Enum.TextYAlignment.Center
+	local box = make("Frame", {Size = UDim2.fromOffset(15, 15), Position = UDim2.fromOffset(3, 3), BackgroundColor3 = checked and RereGui.Theme.Accent or RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, Parent = item}) :: Frame
+	local tick = label(box, checked and "x" or ""); tick.Size = UDim2.fromScale(1, 1); tick.TextXAlignment, tick.TextYAlignment = Enum.TextXAlignment.Center, Enum.TextYAlignment.Center
 	local title = label(item, value); title.Position = UDim2.fromOffset(25, 0); title.Size = UDim2.new(1, -25, 1, 0)
 	local control = {}
-	function control:Set(valueToSet: boolean) checked = valueToSet; tick.Text = checked and "✓" or ""; box.BackgroundColor3 = checked and RereGui.Theme.Accent or RereGui.Theme.FrameBg; if callback then callback(checked) end end
+	function control:Set(valueToSet: boolean) checked = valueToSet; tick.Text = checked and "x" or ""; box.BackgroundColor3 = checked and RereGui.Theme.Accent or RereGui.Theme.FrameBg; if callback then callback(checked) end end
 	function control:Get() return checked end
 	item.MouseButton1Click:Connect(function() control:Set(not checked) end)
-	item.MouseEnter:Connect(function() if not checked then box.BackgroundColor3 = RereGui.Theme.FrameHover end end)
-	item.MouseLeave:Connect(function() if not checked then box.BackgroundColor3 = RereGui.Theme.FrameBg end end)
 	return control
 end
 
 function Tab:Slider(value: string, minimum: number, maximum: number, default: number, callback: ((number) -> ())?)
 	local row = make("Frame", {Size = UDim2.new(1, 0, 0, 24), BackgroundTransparency = 1, Parent = self.Page}) :: Frame
 	local title = label(row, value, 150)
-	local bar = make("TextButton", {Size = UDim2.new(1, -245, 0, 20), Position = UDim2.fromOffset(155, 1), BackgroundColor3 = RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, BorderSizePixel = 0, AutoButtonColor = false, Text = "", Parent = row}) :: TextButton
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = bar})
+	local bar = make("TextButton", {Size = UDim2.new(1, -245, 0, 20), Position = UDim2.fromOffset(155, 1), BackgroundColor3 = RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, AutoButtonColor = false, Text = "", Parent = row}) :: TextButton
 	local fill = make("Frame", {Size = UDim2.new(0, 0, 1, 0), BackgroundColor3 = RereGui.Theme.Accent, BorderSizePixel = 0, Parent = bar}) :: Frame
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = fill})
 	local number = label(row, "", 80); number.Position = UDim2.new(1, -84, 0, 0); number.TextXAlignment = Enum.TextXAlignment.Right
 	local current = math.clamp(default, minimum, maximum); local dragging = false
 	local control = {}
@@ -220,9 +208,7 @@ end
 function Tab:InputText(value: string, default: string?, callback: ((string) -> ())?)
 	local row = make("Frame", {Size = UDim2.new(1, 0, 0, 24), BackgroundTransparency = 1, Parent = self.Page}) :: Frame
 	label(row, value, 150)
-	local input = make("TextBox", {Size = UDim2.new(1, -155, 0, 22), Position = UDim2.fromOffset(155, 0), BackgroundColor3 = RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, BorderSizePixel = 0, ClearTextOnFocus = false, TextXAlignment = Enum.TextXAlignment.Left, Text = default or "", Parent = row}) :: TextBox
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = input})
-	make("UIPadding", {PaddingLeft = UDim.new(0, 6), PaddingRight = UDim.new(0, 6), Parent = input})
+	local input = make("TextBox", {Size = UDim2.new(1, -155, 0, 22), Position = UDim2.fromOffset(155, 0), BackgroundColor3 = RereGui.Theme.FrameBg, BorderColor3 = RereGui.Theme.Border, ClearTextOnFocus = false, TextXAlignment = Enum.TextXAlignment.Left, Text = default or "", Parent = row}) :: TextBox
 	text(input, input.Text); input.Focused:Connect(function() input.BackgroundColor3 = RereGui.Theme.FrameHover end); input.FocusLost:Connect(function() input.BackgroundColor3 = RereGui.Theme.FrameBg; if callback then callback(input.Text) end end)
 	return input
 end
@@ -231,40 +217,31 @@ function Tab:CollapsingHeader(value: string, open: boolean?)
 	local holder = make("Frame", {Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Parent = self.Page}) :: Frame
 	addList(holder, 4)
 	local expanded = open ~= false
-	local header = make("TextButton", {Size = UDim2.new(1, 0, 0, 26), BackgroundColor3 = RereGui.Theme.Header, BorderSizePixel = 0, AutoButtonColor = false, Parent = holder}) :: TextButton
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = header})
+	local header = make("TextButton", {Size = UDim2.new(1, 0, 0, 24), BackgroundColor3 = RereGui.Theme.Header, BorderColor3 = RereGui.Theme.Border, AutoButtonColor = false, Parent = holder}) :: TextButton
 	header.Text = ""
-	local arrow = make("TextLabel", {Size = UDim2.fromOffset(18, 26), Position = UDim2.fromOffset(4, 0), BackgroundTransparency = 1, TextXAlignment = Enum.TextXAlignment.Center, TextYAlignment = Enum.TextYAlignment.Center, Parent = header}) :: TextLabel
-	text(arrow, expanded and "▼" or "▶", 14)
+	local arrow = make("TextLabel", {Size = UDim2.fromOffset(18, 24), Position = UDim2.fromOffset(2, 0), BackgroundTransparency = 1, TextXAlignment = Enum.TextXAlignment.Center, TextYAlignment = Enum.TextYAlignment.Center, Parent = header}) :: TextLabel
+	text(arrow, expanded and "▼" or "▶", 15)
 	local headerLabel = label(header, value)
-	headerLabel.Size = UDim2.new(1, -28, 1, 0)
-	headerLabel.Position = UDim2.fromOffset(26, 0)
+	headerLabel.Size = UDim2.new(1, -24, 1, 0)
+	headerLabel.Position = UDim2.fromOffset(23, 0)
 	local body = make("Frame", {Size = UDim2.new(1, -12, 0, 0), Position = UDim2.fromOffset(6, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Visible = expanded, Parent = holder}) :: Frame
 	addList(body, 4)
 	header.MouseButton1Click:Connect(function() expanded = not expanded; body.Visible = expanded; arrow.Text = expanded and "▼" or "▶" end)
-	header.MouseEnter:Connect(function() header.BackgroundColor3 = RereGui.Theme.HeaderHover end)
-	header.MouseLeave:Connect(function() header.BackgroundColor3 = RereGui.Theme.Header end)
 	return setmetatable({Page = body}, Tab)
 end
 
 function Tab:Menu(labelText: string, entries: {{Text: string, Callback: (() -> ())?}})
 	local holder = make("Frame", {Size = UDim2.fromOffset(0, 24), AutomaticSize = Enum.AutomaticSize.X, BackgroundTransparency = 1, ZIndex = 5, Parent = self.Page}) :: Frame
-	local trigger = make("TextButton", {Size = UDim2.fromOffset(0, 22), AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = RereGui.Theme.TabBg, BorderSizePixel = 0, AutoButtonColor = false, Parent = holder}) :: TextButton
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = trigger})
-	make("UIPadding", {PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10), Parent = trigger})
-	text(trigger, labelText)
-	local popup = make("Frame", {Size = UDim2.fromOffset(145, 0), AutomaticSize = Enum.AutomaticSize.Y, Position = UDim2.fromOffset(0, 24), BackgroundColor3 = RereGui.Theme.WindowBg, BorderColor3 = RereGui.Theme.Border, BorderSizePixel = 1, Visible = false, ZIndex = 10, Parent = holder}) :: Frame
-	make("UICorner", {CornerRadius = UDim.new(0, 4), Parent = popup})
-	make("UIPadding", {PaddingTop = UDim.new(0, 2), PaddingBottom = UDim.new(0, 2), Parent = popup})
+	local trigger = make("TextButton", {Size = UDim2.fromOffset(0, 22), AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = RereGui.Theme.TabBg, BorderColor3 = RereGui.Theme.Border, AutoButtonColor = false, Parent = holder}) :: TextButton
+	text(trigger, "  " .. labelText .. "  ")
+	local popup = make("Frame", {Size = UDim2.fromOffset(145, 0), AutomaticSize = Enum.AutomaticSize.Y, Position = UDim2.fromOffset(0, 24), BackgroundColor3 = RereGui.Theme.WindowBg, BorderColor3 = RereGui.Theme.Border, Visible = false, ZIndex = 10, Parent = holder}) :: Frame
 	addList(popup, 1)
 	for _, entry in ipairs(entries) do
-		local item = make("TextButton", {Size = UDim2.new(1, 0, 0, 24), BackgroundColor3 = RereGui.Theme.WindowBg, BorderSizePixel = 0, AutoButtonColor = false, ZIndex = 11, Parent = popup}) :: TextButton
+		local item = make("TextButton", {Size = UDim2.new(1, 0, 0, 22), BackgroundColor3 = RereGui.Theme.WindowBg, BorderSizePixel = 0, AutoButtonColor = false, ZIndex = 11, Parent = popup}) :: TextButton
 		text(item, "  " .. entry.Text); item.TextXAlignment = Enum.TextXAlignment.Left; item.MouseEnter:Connect(function() item.BackgroundColor3 = RereGui.Theme.TabHover end); item.MouseLeave:Connect(function() item.BackgroundColor3 = RereGui.Theme.WindowBg end)
 		item.MouseButton1Click:Connect(function() popup.Visible = false; if entry.Callback then entry.Callback() end end)
 	end
 	trigger.MouseButton1Click:Connect(function() popup.Visible = not popup.Visible end)
-	trigger.MouseEnter:Connect(function() trigger.BackgroundColor3 = RereGui.Theme.TabHover end)
-	trigger.MouseLeave:Connect(function() trigger.BackgroundColor3 = RereGui.Theme.TabBg end)
 	return holder
 end
 
