@@ -1218,6 +1218,7 @@ function ReGui:LoadPrefabs(): Folder?
 	child("Folder", container, "Windows")
 	local window = template("Window", "CanvasGroup")
 	local content = child("TextButton", window, "Content")
+	child("UIStroke", content, "Border")
 	child("Frame", content, "TitleBar")
 	local canvas = template("Canvas", "Frame")
 	child("UIListLayout", canvas, "UIListLayout")
