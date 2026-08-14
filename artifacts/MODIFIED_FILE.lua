@@ -1217,7 +1217,7 @@ function ReGui:LoadPrefabs(): Folder?
 	container.ResetOnSpawn = false
 	child("Folder", container, "Windows")
 	local window = template("Window", "CanvasGroup")
-	local content = child("Frame", window, "Content")
+	local content = child("TextButton", window, "Content")
 	child("Frame", content, "TitleBar")
 	local canvas = template("Canvas", "Frame")
 	child("UIListLayout", canvas, "UIListLayout")
