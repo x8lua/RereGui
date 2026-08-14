@@ -1106,6 +1106,9 @@ function ReGui:Init(Overwrites)
 	end
 
 	--// Fetch required assets
+	if not self.Prefabs then
+		error("[RereGui] Could not load ReGui-Prefabs")
+	end
 	if not self.Container then
 		self.Container = self:InsertPrefab("Container", {
 			Parent = self.ContainerParent,
